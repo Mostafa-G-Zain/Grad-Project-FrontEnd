@@ -1,0 +1,30 @@
+// Variables needed for this component
+$primary: #3a86ff;
+$secondary: #8338ec;
+$white: #ffffff;
+
+.hero-section {
+    background: linear-gradient(135deg, $primary, $secondary);
+    color: $white;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTIwMCA4MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTIwMCAwSDB2ODAwaDEyMDBWMHoiIGZpbGw9IiMwMDAiIG9wYWNpdHk9Ii4wMiIvPjxwYXRoIGQ9Ik0xMjAwIDQwMEgwdjQwMGgxMjAwVjQwMHoiIGZpbGw9IiMwMDAiIG9wYWNpdHk9Ii4wMyIvPjxwYXRoIGQ9Ik0xMjAwIDY2N0gwdjEzM2gxMjAwVjY2N3oiIGZpbGw9IiMwMDAiIG9wYWNpdHk9Ii4wNCIvPjwvZz48L3N2Zz4=');
+        opacity: 0.1;
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 60px 0;
+    }
+}

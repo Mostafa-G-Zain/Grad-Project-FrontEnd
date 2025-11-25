@@ -1,0 +1,267 @@
+// Color variables
+$primary: #3a86ff;
+$secondary: #8338ec;
+$success: #06d6a0;
+$warning: #ffd166;
+$danger: #ef476f;
+$dark: #1a1a2e;
+$light: #f8f9fa;
+$gray: #6c757d;
+
+$white: #ffffff;
+$body-color: #333333;
+$body-bg: #f5f7fa;
+
+// Typography
+$font-family-base: 'Roboto', sans-serif;
+$font-family-heading: 'Montserrat', sans-serif;
+
+// Radii
+$border-radius-lg: 12px;
+$border-radius-pill: 30px;
+
+// Shadows
+$box-shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.05);
+$box-shadow-soft-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+// Buttons
+$btn-padding-y: 10px;
+$btn-padding-x: 25px;
+
+// Transitions
+$transition-fast: 0.3s ease;
+
+
+// Global styles
+body {
+    font-family: $font-family-base;
+    color: $body-color;
+    background-color: $body-bg;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-family-heading;
+    font-weight: 600;
+}
+
+// Navbar (works with your HTML navbar)
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: $primary !important;
+}
+
+
+
+
+
+// Cards
+.card {
+    border: none;
+    border-radius: $border-radius-lg;
+    box-shadow: $box-shadow-soft;
+    transition: transform $transition-fast, box-shadow $transition-fast;
+    margin-bottom: 20px;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $box-shadow-soft-lg;
+    }
+}
+
+.car-card {
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+        border-top-left-radius: $border-radius-lg;
+        border-top-right-radius: $border-radius-lg;
+    }
+}
+
+// Price tag
+.price-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: $primary;
+    color: $white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+// Feature icon
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(58, 134, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    color: $primary;
+}
+
+
+// Buttons
+$primary-hover: #2a75f0;
+
+.btn-primary {
+    background: $primary;
+    border: none;
+    padding: $btn-padding-y $btn-padding-x;
+    border-radius: $border-radius-pill;
+    font-weight: 500;
+
+    &:hover {
+        background: $primary-hover;
+    }
+}
+
+.btn-outline-primary {
+    border: 2px solid $primary;
+    color: $primary;
+    padding: $btn-padding-y $btn-padding-x;
+    border-radius: $border-radius-pill;
+    font-weight: 500;
+
+    &:hover {
+        background: $primary;
+        color: $white;
+    }
+}
+
+
+// Search section
+.search-section {
+    background: $white;
+    border-radius: $border-radius-lg;
+    padding: 25px;
+    box-shadow: $box-shadow-soft;
+    margin-top: -50px;
+    position: relative;
+    z-index: 10;
+}
+
+// Filter buttons
+.filter-btn {
+    background: $white;
+    border: 1px solid #dee2e6;
+    border-radius: $border-radius-pill;
+    padding: 8px 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+
+    &.active {
+        background: $primary;
+        color: $white;
+        border-color: $primary;
+    }
+}
+
+
+// Dashboard & stats
+.dashboard-card {
+    border-left: 4px solid $primary;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 20px;
+
+    .number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: $primary;
+        margin-bottom: 0;
+    }
+}
+
+.progress {
+    height: 8px;
+    border-radius: 10px;
+}
+
+
+// List group
+.list-group-item {
+    border: none;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+// Badges
+.badge-primary {
+    background: $primary;
+}
+
+
+// Footer
+footer {
+    background: $dark;
+    color: $white;
+    padding: 60px 0 30px;
+
+    .footer-links {
+        a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color $transition-fast;
+
+            &:hover {
+                color: $white;
+            }
+        }
+    }
+
+    .social-icons {
+        a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            color: $white;
+            transition: background $transition-fast;
+
+            &:hover {
+                background: $primary;
+            }
+        }
+    }
+}
+
+
+// Responsive
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 60px 0;
+    }
+
+    .search-section {
+        margin-top: -30px;
+    }
+
+    .car-card {
+        .card-img-top {
+            height: 180px;
+        }
+    }
+}

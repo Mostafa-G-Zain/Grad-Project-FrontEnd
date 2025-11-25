@@ -1,0 +1,63 @@
+<section class="hero-section py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- النص -->
+      <div class="col-lg-6 mb-4 mb-lg-0 text-center text-lg-start">
+        <h1 class="display-5 fw-bold mb-3">
+          Find Your Perfect Used/New Car
+        </h1>
+        <p class="lead mb-4">
+          Browse a vast selection of quality used and new cars.
+          Easy search, convenient comparisons, and peace of mind.
+        </p>
+
+        <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start">
+          <button class="btn btn-light px-4 py-2 fw-semibold">
+            Browse Cars
+          </button>
+          <button class="btn btn-outline-light px-4 py-2 fw-semibold">
+            Sell Your Car
+          </button>
+        </div>
+      </div>
+
+      <!-- الصورة -->
+      <div class="col-lg-6">
+        <div class="bg-white rounded-4 shadow-lg overflow-hidden">
+          <img
+            src="https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
+            alt="Featured car"
+            class="img-fluid w-100"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="py-5" style="background-color: #f5f7fa;">
+  <div class="container">
+    <h2 class="mb-4 fw-semibold">Cars for sale</h2>
+
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let car of cars">
+        <div class="card h-100 border-0 shadow-sm rounded-4">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold">{{ car.title }}</h5>
+            <p class="card-text text-muted mb-3">
+              {{ car.brand }} {{ car.model }} • {{ car.year }}<br />
+              <span class="fw-bold text-dark">
+                {{ car.price | number }} EGP
+              </span>
+            </p>
+            <button class="btn btn-outline-primary btn-sm w-100">
+              View details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

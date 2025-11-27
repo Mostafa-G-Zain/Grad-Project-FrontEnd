@@ -24,11 +24,8 @@
       <!-- الصورة -->
       <div class="col-lg-6">
         <div class="bg-white rounded-4 shadow-lg overflow-hidden">
-          <img
-            src="https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
-            alt="Featured car"
-            class="img-fluid w-100"
-          />
+          <img src="https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg" alt="Featured car"
+            class="img-fluid w-100" />
         </div>
       </div>
     </div>
@@ -47,7 +44,7 @@
           <div class="card-body">
             <h5 class="card-title fw-semibold">{{ car.title }}</h5>
             <p class="card-text text-muted mb-3">
-              {{ car.brand }} {{ car.model }} • {{ car.year }}<br />
+              {{ car.make?.name }} {{ car.model?.name }} • {{ car.year }}<br />
               <span class="fw-bold text-dark">
                 {{ car.price | number }} EGP
               </span>

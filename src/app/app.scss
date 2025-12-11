@@ -13,6 +13,10 @@ h6 {
     font-weight: 600;
 }
 
+.navbar {
+    background: linear-gradient(135deg, $white, $gray-200);
+}
+
 // Navbar (works with your HTML navbar)
 .navbar-brand {
     font-weight: 700;

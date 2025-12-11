@@ -1,6 +1,5 @@
 @use '../../../../app.scss' as *;
 
-
 :host {
   display: block;
   background: $body-bg;
@@ -11,25 +10,112 @@
   max-width: 1140px;
 }
 
-// Main big image
+/* Main big image + carousel */
 .main-image {
   position: relative;
   padding: 10px;
   border-radius: $border-radius-lg;
-  background: linear-gradient(
-    135deg,
-    rgba($primary, 0.06),
-    rgba($secondary, 0.06)
-  );
+  background: linear-gradient(135deg,
+      rgba($primary, 0.06),
+      rgba($secondary, 0.06));
   overflow: hidden;
+
+  .image-stage {
+    position: relative;
+  }
 
   img {
     border-radius: calc(#{$border-radius-lg} - 4px);
     box-shadow: $box-shadow-soft;
   }
+
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba($white, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $primary;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.1s ease;
+
+    &.prev {
+      left: 12px;
+    }
+
+    &.next {
+      right: 12px;
+    }
+
+    &:hover:not(:disabled) {
+      background: $primary;
+      color: $white;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      transform: translateY(-50%) translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+      box-shadow: none;
+    }
+  }
+
+  .carousel-indicators {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+  }
+
+  .indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: none;
+    background: rgba($white, 0.6);
+    cursor: pointer;
+    transition: background-color 0.2s ease, width 0.2s ease;
+
+    &.active {
+      width: 16px;
+      background: $primary;
+    }
+  }
 }
 
-// Thumbnails
+/* CSS animation for image change */
+.fade-image {
+  opacity: 0;
+  animation: fadeSlideIn 0.35s ease-out forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(8px) scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Thumbnails */
 .thumb-img {
   width: 90px;
   height: 70px;
@@ -47,56 +133,186 @@
   &:hover {
     transform: translateY(-2px);
     box-shadow: $box-shadow-soft;
-    border-color: rgba($primary, 0.7);
+    opacity: 1;
+  }
+
+  &.active-thumb {
+    border-color: $primary;
     opacity: 1;
   }
 }
 
-// Headings & price on-brand
-h3,
-h4 {
-  font-family: $font-family-heading;
-}
+/* Car summary card */
+.car-summary-card {
+  .car-title {
+    font-family: $font-family-heading;
+    letter-spacing: 0.2px;
+  }
 
-h4.text-primary {
-  color: $primary !important;
-}
+  .car-price {
+    font-size: 1.4rem;
+  }
 
-// Meta list (body type, fuel, year)
-.car-meta-list {
-  li {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
+  .car-subtitle {
+    color: $gray;
 
-    span {
-      color: $gray;
+    .bullet-separator {
+      opacity: 0.6;
     }
 
-    strong {
-      color: $dark;
+    i {
+      color: $primary;
     }
   }
 }
 
-// Seller card accent
+.car-meta {
+  margin-top: 0.25rem;
+}
+
+.car-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: rgba($primary, 0.03);
+  border: 1px solid rgba($primary, 0.08);
+  min-width: 160px;
+
+  .car-meta-icon {
+    font-size: 1.3rem;
+    color: $primary;
+  }
+
+  .car-meta-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $gray;
+    margin-bottom: 0.05rem;
+  }
+
+  .car-meta-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $dark;
+  }
+}
+
+/* Seller card */
 .seller-card {
   border-left: 4px solid rgba($primary, 0.5);
+
+  .card-header {
+    padding-top: 1rem;
+    padding-bottom: 0.25rem;
+
+    h6 {
+      font-family: $font-family-heading;
+      letter-spacing: 0.03em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+
+    i {
+      font-size: 1rem;
+    }
+  }
+
+  .seller-icon-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba($primary, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $primary;
+    font-size: 1.1rem;
+  }
+
+  .seller-name {
+    font-size: 0.98rem;
+    color: $dark;
+  }
+
+  .seller-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    li {
+      flex: 1;
+      min-width: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      background: $light;
+      border-radius: $border-radius-lg;
+      transition: all $transition-fast;
+
+      &:hover {
+        background: rgba($primary, 0.1);
+        transform: translateY(-2px);
+
+        i {
+          transform: scale(1.1);
+        }
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      /* Handle non-link items like location */
+      &:has(span) {
+        gap: 0.5rem;
+      }
+
+      i {
+        font-size: 1.8rem;
+        color: $primary;
+        margin-bottom: 0.25rem;
+        transition: transform $transition-fast;
+        width: auto;
+        /* reset width constraint */
+      }
+
+      span,
+      a {
+        font-size: 0.8rem;
+        color: $dark;
+        word-break: break-all;
+        /* handle long emails */
+      }
+    }
+  }
 }
 
-// Description card spacing
+/* Description card */
 .description-card {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 }
 
-// Loading spinner tweak
+/* Loading spinner */
 .spinner-border {
   width: 3rem;
   height: 3rem;
   border-width: 0.3rem;
 }
 
-// Responsive
+/* Responsive */
 @media (max-width: 992px) {
   .container.py-5 {
     padding-top: 1.5rem !important;
@@ -105,5 +321,9 @@ h4.text-primary {
 
   .main-image {
     margin-bottom: 1rem;
+  }
+
+  .car-meta-item {
+    min-width: 100%;
   }
 }

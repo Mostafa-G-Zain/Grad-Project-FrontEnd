@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CarService } from '../../../../core/services/car.service';
 import { ICar } from '../../../../shared/models/car.model';
 
+
 @Component({
   selector: 'app-car-details',
   standalone: true,
@@ -18,6 +19,8 @@ export class CarDetailsComponent implements OnInit {
   car = signal<ICar | null>(null);
   loading = signal<boolean>(true);
   error = signal<string | null>(null);
+  selectedImageIndex = signal(0);
+
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -44,4 +47,36 @@ export class CarDetailsComponent implements OnInit {
       }
     });
   }
+
+  nextImage(): void {
+    const c = this.car();
+    const images = c?.imageUrls ?? [];
+    if (!images.length) return;
+
+    this.selectedImageIndex.update(current =>
+      current + 1 >= images.length ? 0 : current + 1
+    );
+  }
+
+  prevImage(): void {
+    const c = this.car();
+    const images = c?.imageUrls ?? [];
+    if (!images.length) return;
+
+    this.selectedImageIndex.update(current =>
+      current - 1 < 0 ? images.length - 1 : current - 1
+    );
+  }
+
+  setImage(index: number): void {
+    const c = this.car();
+    const images = c?.imageUrls ?? [];
+    if (!images.length) return;
+
+    if (index >= 0 && index < images.length) {
+      this.selectedImageIndex.set(index);
+    }
+  }
+
+
 }

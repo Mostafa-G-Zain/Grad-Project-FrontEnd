@@ -1,21 +1,34 @@
-export interface IUser{
+export interface IUser {
     id: string;
     firstName: string;
     lastName: string;
     email: string;
     nationalId: string;
     address: string;
-    createdDate: string; 
-    role: 'Admin' | 'Vendor' | "Customer";
+    createdDate: string;
+    role: 'Admin' | 'Vendor' | 'Customer';
     token: string;
     phoneNumber?: string;
 }
 
-export interface IRegisterRequest{
+
+export interface IRegisterRequest {
     firstName: string;
     lastName: string;
     email: string;
     nationalId: string;
     address: string;
-    role: 'Vendor' | "Customer";
+    password: string;
+    confirmPassword?: string;
+    phoneNumber?: string;
+    role: 'Vendor' | 'Customer';
+}
+
+export interface ILoginRequest {
+    email: string;
+    password: string;
+}
+
+export interface IAuthResponse {
+    token: string;
 }

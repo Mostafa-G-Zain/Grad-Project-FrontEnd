@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,9 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = signal('web');
 
-  showLoginModal() {
-    console.log('Login modal triggered');
-  }
+  auth = inject(AuthService);
 
-  showRegisterModal() {
-    console.log('Register modal triggered');
+  logout() {
+    this.auth.logout();
   }
 }

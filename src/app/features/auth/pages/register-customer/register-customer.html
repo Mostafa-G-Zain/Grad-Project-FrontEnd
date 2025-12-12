@@ -1,0 +1,84 @@
+<!-- src/app/features/auth/pages/register/register.html -->
+
+<div class="auth-page py-5">
+    <div class="container h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-md-6 col-lg-5">
+                <!-- Header / Icon -->
+                <div class="auth-header text-center mb-4">
+                    <div class="auth-icon mb-3">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <h3 class="mb-1">Create your account</h3>
+                    <p class="text-muted mb-0">
+                        Join Car Nest and Explore a vast variety of quality used and new cars.
+                    </p>
+                </div>
+
+                <!-- Card -->
+                <div class="card auth-card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4">
+                        @if (error) {
+                        <div class="alert alert-danger py-2 mb-3">{{ error }}</div>
+                        }
+
+                        <form [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">First name</label>
+                                    <input class="form-control" formControlName="firstName" placeholder="Ahmed" />
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Last name</label>
+                                    <input class="form-control" formControlName="lastName" placeholder="Ali" />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" formControlName="email"
+                                    placeholder="you@example.com" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" formControlName="password"
+                                    placeholder="••••••••" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">National ID</label>
+                                <input class="form-control" formControlName="nationalId" placeholder="2980..." />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <input class="form-control" formControlName="address" placeholder="City, Street..." />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Phone number</label>
+                                <input class="form-control" formControlName="phoneNumber" placeholder="01xxxxxxxxx" />
+                            </div>
+
+                            <button class="btn btn-primary w-100 auth-submit-btn" type="submit"
+                                [disabled]="loading || registerForm.invalid">
+                                @if (loading) {
+                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                Registering...
+                                } @else {
+                                Sign Up
+                                }
+                            </button>
+                        </form>
+
+                        <p class="text-center text-muted small mt-3 mb-0">
+                            Already have an account?
+                            <button class="btn" style="color: #25aada;" routerLink="/login">Login</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

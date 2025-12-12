@@ -1,0 +1,70 @@
+<!-- src/app/features/auth/pages/login/login.html -->
+
+<div class="auth-page py-5">
+    <div class="container h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-md-6 col-lg-4">
+                <!-- Header / Logo -->
+                <div class="auth-header text-center mb-4">
+                    <div class="auth-icon mb-3">
+                        <i class="fa-solid fa-car-side"></i>
+                    </div>
+                    <h3 class="mb-1">Welcome back</h3>
+                    <p class="text-muted mb-0">
+                        Sign in to your Car Nest account.
+                    </p>
+                </div>
+
+                <!-- Card -->
+                <div class="card auth-card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4">
+                        @if (error()) {
+                        <div class="alert alert-danger py-2 mb-3">
+                            {{ error() }}
+                        </div>
+                        }
+
+                        <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" formControlName="email"
+                                    placeholder="you@example.com" />
+                                @if (form.get('email')?.touched && form.get('email')?.invalid) {
+                                <small class="text-danger d-block mt-1">
+                                    Please enter a valid email.
+                                </small>
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" formControlName="password"
+                                    placeholder="••••••••" />
+                                @if (form.get('password')?.touched && form.get('password')?.invalid) {
+                                <small class="text-danger d-block mt-1">
+                                    Password is required.
+                                </small>
+                                }
+                            </div>
+
+                            <button class="btn-in w-100 mt-2 auth-submit-btn" type="submit"
+                                [disabled]="loading() || form.invalid">
+                                @if (loading()) {
+                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                Logging in...
+                                } @else {
+                                Login
+                                }
+                            </button>
+                        </form>
+
+                        <p class="text-center text-muted small mt-3 mb-0">
+                            Don’t have an account?
+                            <button class="btn" style="color: #25aada;" routerLink="/register-customer">Sign up</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

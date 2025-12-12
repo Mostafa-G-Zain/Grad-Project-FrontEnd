@@ -6,7 +6,7 @@
     <div class="col-lg-7">
       <!-- Main image + carousel controls -->
       <div class="main-image mb-3">
-        @if (c.imageUrls?.length) {
+        @if (c.imageUrls.length) {
         <!-- Previous -->
         <button type="button" class="carousel-control prev" (click)="prevImage()" [disabled]="c.imageUrls.length <= 1">
           <i class="fa-solid fa-chevron-left"></i>
@@ -40,7 +40,7 @@
       </div>
 
       <!-- Thumbnails -->
-      @if (c.imageUrls?.length) {
+      @if (c.imageUrls.length) {
       <div class="d-flex flex-wrap gap-2">
         @for (img of c.imageUrls; track $index; let i = $index) {
         <img [src]="'https://carnest.runasp.net/' + img" class="img-thumbnail thumb-img"

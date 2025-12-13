@@ -32,3 +32,4 @@ export interface ILoginRequest {
 export interface IAuthResponse {
     token: string;
 }
+

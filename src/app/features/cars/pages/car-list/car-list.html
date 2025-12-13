@@ -1,24 +1,37 @@
-<section class="main-content py-5">
-  <div class="container">
-    <div class="row">
+<section class="py-8 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="container mx-auto">
+    <div class="mb-6">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">Browse Our Car Collection</h1>
+      <p class="text-gray-600 dark:text-gray-400">Find the perfect car that matches your needs</p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
       <!-- Sidebar filters -->
-      <div class="col-lg-3 col-md-4 mb-4">
-        <div class="filter-sidebar p-4 bg-white rounded-4 shadow-sm">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold m-0">Filters</h5>
-            <button (click)="resetFilters()" class="btn btn-link text-decoration-none p-0">
+      <div class="lg:col-span-1">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 p-6 sticky top-4 border border-gray-200 dark:border-gray-700">
+          <div class="flex justify-between items-center mb-4">
+            <h5 class="font-bold text-lg text-gray-900 dark:text-white">
+              <i class="fa-solid fa-filter mr-2 text-blue-600 dark:text-blue-400"></i>
+              Filters
+            </h5>
+            <button (click)="resetFilters()" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors">
               Reset
             </button>
           </div>
 
-          <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
-            <div class="mb-3">
-              <input type="text" class="form-control" formControlName="search" placeholder="Search keyword..." />
+          <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="space-y-4">
+            <div>
+              <input type="text" 
+                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400" 
+                     formControlName="search" 
+                     placeholder="Search keyword..." />
             </div>
 
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Brand</label>
-              <select class="form-select" formControlName="makeId" (change)="onMakeChange()">
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Brand</label>
+              <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                      formControlName="makeId" 
+                      (change)="onMakeChange()">
                 <option value="">All Brands</option>
                 @for (m of makes(); track m.makeId) {
                 <option [value]="m.makeId">
@@ -28,9 +41,11 @@
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Model</label>
-              <select class="form-select" formControlName="modelId" [disabled]="models().length === 0">
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Model</label>
+              <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 dark:disabled:bg-gray-600 disabled:text-gray-500 dark:disabled:text-gray-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                      formControlName="modelId" 
+                      [disabled]="models().length === 0">
                 <option value="">All Models</option>
                 @for (mod of models(); track mod.modelId) {
                 <option [value]="mod.modelId">
@@ -40,9 +55,10 @@
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Fuel Type</label>
-              <select class="form-select" formControlName="fuelId">
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Fuel Type</label>
+              <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                      formControlName="fuelId">
                 <option value="">All Fuel Types</option>
                 @for (fuel of fuelTypes(); track fuel.fuelId) {
                 <option [value]="fuel.fuelId">
@@ -52,9 +68,10 @@
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Body Type</label>
-              <select class="form-select" formControlName="bodyTypeId">
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Body Type</label>
+              <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                      formControlName="bodyTypeId">
                 <option value="">All Body Types</option>
                 @for (bodyType of bodyTypes(); track bodyType.bodyTypeId) {
                 <option [value]="bodyType.bodyTypeId">
@@ -64,9 +81,10 @@
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Location</label>
-              <select class="form-select" formControlName="locId">
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Location</label>
+              <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                      formControlName="locId">
                 <option value="">All Cities</option>
                 @for (loc of locations(); track loc.locId) {
                 <option [value]="loc.locId">
@@ -76,33 +94,62 @@
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Condition</label>
-              <select class="form-select" formControlName="condition">
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Condition</label>
+              <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                      formControlName="condition">
                 <option [ngValue]="null">All Conditions</option>
                 <option [value]="CarCondition.New">New</option>
                 <option [value]="CarCondition.Used">Used</option>
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Gear Type</label>
-              <select class="form-select" formControlName="gearType">
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Gear Type</label>
+              <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
+                      formControlName="gearType">
                 <option [ngValue]="null">All Gear Types</option>
                 <option [value]="CarGearType.Manual">Manual</option>
                 <option [value]="CarGearType.Automatic">Automatic</option>
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label small fw-bold">Price (EGP)</label>
-              <div class="d-flex gap-2">
-                <input type="number" class="form-control" formControlName="minPrice" placeholder="Min" />
-                <input type="number" class="form-control" formControlName="maxPrice" placeholder="Max" />
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">Price (EGP)</label>
+              <div class="mb-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                    {{ getMinPrice() | currency:'EGP ':'symbol':'1.0-0' }}
+                  </span>
+                  <span class="text-gray-400 dark:text-gray-500 mx-2">-</span>
+                  <span class="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                    {{ getMaxPrice() | currency:'EGP ':'symbol':'1.0-0' }}
+                  </span>
+                </div>
+              </div>
+              <!-- Dual Range Slider -->
+              <div class="relative h-8 flex items-center">
+                <input type="range" 
+                       [min]="priceRange().min" 
+                       [max]="priceRange().max" 
+                       [value]="getMinPrice()"
+                       (input)="onMinPriceChange($event)"
+                       class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer z-10 dual-slider dual-slider-min" />
+                <input type="range" 
+                       [min]="priceRange().min" 
+                       [max]="priceRange().max" 
+                       [value]="getMaxPrice()"
+                       (input)="onMaxPriceChange($event)"
+                       class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer z-20 dual-slider dual-slider-max" />
+                <div class="absolute w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg z-0"></div>
+                <div class="absolute h-2 bg-blue-600 dark:bg-blue-500 rounded-lg z-0" 
+                     [style.left.%]="((getMinPrice() - priceRange().min) / (priceRange().max - priceRange().min)) * 100"
+                     [style.width.%]="((getMaxPrice() - getMinPrice()) / (priceRange().max - priceRange().min)) * 100"></div>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 fw-bold">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-lg">
+              <i class="fa-solid fa-magnifying-glass mr-2"></i>
               Show Results
             </button>
           </form>
@@ -110,66 +157,93 @@
       </div>
 
       <!-- Cars list -->
-      <div class="col-lg-9 col-md-8">
+      <div class="lg:col-span-3">
         @if (loading()) {
-        <div class="text-center py-5">
-          <div class="spinner-border text-primary" role="status"></div>
-          <p class="mt-2 text-muted">Loading cars...</p>
+        <div class="text-center py-12">
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400"></div>
+          <p class="mt-4 text-gray-700 dark:text-gray-300 font-medium">Loading cars...</p>
         </div>
         } @else {
-        <div class="row g-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           @if (cars().length === 0) {
-          <div class="text-center py-5">
-            <h4>No cars found</h4>
-            <p class="text-muted">Try adjusting your filters</p>
+          <div class="col-span-full text-center py-12 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700">
+            <i class="fa-solid fa-car-side text-6xl text-gray-400 dark:text-gray-600 mb-4"></i>
+            <h4 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">No cars found</h4>
+            <p class="text-gray-600 dark:text-gray-400">Try adjusting your filters to find more results</p>
           </div>
           } @else {
           @for (car of cars(); track car.carId) {
-          <div class="col-md-6 col-xl-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4 car-card-hover">
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 overflow-hidden hover:shadow-xl dark:hover:shadow-gray-900 transition-all transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700">
+            <div class="relative">
               <img
                 [src]="car.imageUrls[0] ? 'https://carnest.runasp.net/' + car.imageUrls[0] : 'assets/placeholder.jpg'"
-                class="card-img-top" alt="Car" style="height: 200px; object-fit: cover;" />
-
-              <div class="card-body">
-                <h5 class="card-title fw-bold">
-                  {{ car.year }} {{ car.makeName }} {{ car.modelName }}
-                </h5>
-                <p class="card-text text-muted mb-2 small">
-                  <i class="fa-solid fa-gauge-high me-1"></i> {{ car.mileage | number }} km
-                  <span class="mx-1">•</span>
-                  <i class="fa-solid fa-gears me-1"></i> {{ car.gearType === CarGearType.Automatic ? 'Auto' : 'Manual'
-                  }}
-                </p>
-                <p class="card-text text-muted mb-2">
-                  {{ car.year }} • {{ car.locationName }}
-                </p>
-                <h6 class="text-primary fw-bold mb-3">
-                  {{ car.price | currency:'EGP ' }}
-                </h6>
-                <button class="btn btn-outline-primary w-100 rounded-pill" [routerLink]="['/cars', car.carId]">
-                  View Details
-                </button>
+                class="w-full h-40 object-cover" alt="Car" />
+              <div class="absolute top-2 right-2">
+                @if (car.condition === CarCondition.New) {
+                  <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                    <i class="fa-solid fa-sparkles mr-1"></i>New
+                  </span>
+                } @else {
+                  <span class="bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                    <i class="fa-solid fa-tag mr-1"></i>Used
+                  </span>
+                }
               </div>
+            </div>
+            <div class="p-4">
+              <h5 class="font-bold text-lg mb-2 text-gray-900 dark:text-white">
+                {{ car.year }} {{ car.makeName }} {{ car.modelName }}
+              </h5>
+              <div class="flex flex-wrap gap-2 mb-3 text-sm text-gray-600 dark:text-gray-400">
+                <span class="flex items-center">
+                  <i class="fa-solid fa-gauge-high me-1 text-blue-600 dark:text-blue-400"></i>
+                  {{ car.mileage | number }} km
+                </span>
+                <span class="mx-1">•</span>
+                <span class="flex items-center">
+                  <i class="fa-solid fa-gears me-1 text-blue-600 dark:text-blue-400"></i>
+                  {{ car.gearType === CarGearType.Automatic ? 'Auto' : 'Manual' }}
+                </span>
+              </div>
+              <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
+                <i class="fa-solid fa-location-dot me-1 text-blue-600 dark:text-blue-400"></i>
+                {{ car.locationName }}
+              </div>
+              <h6 class="text-blue-600 dark:text-blue-400 font-bold text-xl mb-4">
+                {{ car.price | currency:'EGP ' }}
+              </h6>
+              <button class="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-full transition-all transform hover:scale-105 shadow-md hover:shadow-lg" 
+                      [routerLink]="['/cars', car.carId]">
+                <i class="fa-solid fa-eye mr-2"></i>
+                View Details
+              </button>
             </div>
           </div>
           }
           }
         </div>
         }
-
       </div>
-      <div class="col-lg-9 col-md-8">
-        <div class="pagination">
-          <button (click)="loadPage(pageNumber() - 1)" [disabled]="!canGoPrevious()">
-            <i class="fa-duotone fa-solid fa-angle-left"></i> Prev
-          </button>
-          <span>{{ pageNumber() }} of {{ totalPages() }}</span>
-          <button (click)="loadPage(pageNumber() + 1)" [disabled]="!canGoNext()">
-            Next <i class="fa-duotone fa-solid fa-angle-right"></i>
-          </button>
-        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="mt-8 flex justify-center items-center gap-4">
+      <button (click)="loadPage(pageNumber() - 1)" 
+              [disabled]="!canGoPrevious()" 
+              class="px-6 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium transition-colors">
+        <i class="fa-solid fa-chevron-left mr-2"></i> Prev
+      </button>
+      <div class="px-6 py-2 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg">
+        <span class="text-gray-900 dark:text-white font-semibold">{{ pageNumber() }}</span>
+        <span class="text-gray-600 dark:text-gray-400 mx-2">of</span>
+        <span class="text-gray-900 dark:text-white font-semibold">{{ totalPages() }}</span>
       </div>
+      <button (click)="loadPage(pageNumber() + 1)" 
+              [disabled]="!canGoNext()" 
+              class="px-6 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium transition-colors">
+        Next <i class="fa-solid fa-chevron-right ml-2"></i>
+      </button>
     </div>
   </div>
 </section>
+

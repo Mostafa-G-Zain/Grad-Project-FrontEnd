@@ -1,0 +1,1407 @@
+{
+	"info": {
+		"_postman_id": "carnest-api-collection",
+		"name": "CarNest API",
+		"description": "CarNest - Car Marketplace API Documentation\n\n## Overview\nCarNest is a car marketplace API that allows users to browse, list, and manage car listings.\n\n## Authentication\nThis API uses JWT Bearer token authentication. After logging in, include the token in the Authorization header:\n`Authorization: Bearer <your-token>`\n\n## Roles\n- **Admin**: Can manage all resources (cars, makes, models, body types, fuel types, locations)\n- **Vendor**: Can add and manage their own car listings\n- **Customer**: Can browse cars and manage favorites\n\n## Enums\n- **CarCondition**: New (0), Used (1)\n- **GearType**: Manual (0), Automatic (1)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:7001/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Account",
+			"description": "Authentication and user registration endpoints",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@carnest.com\",\n    \"password\": \"Admin@123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Account/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["Account", "login"]
+						},
+						"description": "Authenticate user and receive JWT token.\n\n**Response:**\n- `token`: JWT token for authentication\n- `userId`: User's unique identifier\n- `email`: User's email\n- `role`: User's role (Admin/Vendor/Customer)\n- `expiresAt`: Token expiration datetime"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@carnest.com\",\n    \"password\": \"Admin@123\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/Account/login",
+									"host": ["{{baseUrl}}"],
+									"path": ["Account", "login"]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n    \"userId\": \"abc123\",\n    \"email\": \"admin@carnest.com\",\n    \"role\": \"Admin\",\n    \"expiresAt\": \"2024-01-15T12:00:00Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Register Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"newadmin@carnest.com\",\n    \"password\": \"Admin@123\",\n    \"nationalId\": \"12345678901234\",\n    \"address\": \"123 Admin Street, City\",\n    \"phoneNumber\": \"+201234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Account/register/admin",
+							"host": ["{{baseUrl}}"],
+							"path": ["Account", "register", "admin"]
+						},
+						"description": "Register a new admin user. **Requires Admin role.**\n\n**Validation:**\n- `firstName`: Required, max 128 characters\n- `lastName`: Optional, max 128 characters\n- `email`: Required, valid email format\n- `password`: Required, minimum 6 characters\n- `nationalId`: Required, exactly 14 digits\n- `address`: Optional, max 512 characters\n- `phoneNumber`: Optional, valid phone format"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Vendor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Car\",\n    \"lastName\": \"Dealer\",\n    \"email\": \"vendor@example.com\",\n    \"password\": \"Vendor@123\",\n    \"nationalId\": \"12345678901234\",\n    \"address\": \"456 Dealer Ave, City\",\n    \"phoneNumber\": \"+201234567891\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Account/register/vendor",
+							"host": ["{{baseUrl}}"],
+							"path": ["Account", "register", "vendor"]
+						},
+						"description": "Register a new vendor (car dealer) account. **No authentication required.**\n\n**Validation:**\n- `firstName`: Required, max 128 characters\n- `lastName`: Optional, max 128 characters\n- `email`: Required, valid email format\n- `password`: Required, minimum 6 characters\n- `nationalId`: Required, exactly 14 digits\n- `address`: Optional, max 512 characters\n- `phoneNumber`: Optional, valid phone format"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Jane\",\n    \"lastName\": \"Smith\",\n    \"email\": \"customer@example.com\",\n    \"password\": \"Customer@123\",\n    \"nationalId\": \"12345678901234\",\n    \"address\": \"789 Customer Blvd, City\",\n    \"phoneNumber\": \"+201234567892\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Account/register/customer",
+							"host": ["{{baseUrl}}"],
+							"path": ["Account", "register", "customer"]
+						},
+						"description": "Register a new customer account. **No authentication required.**\n\n**Validation:**\n- `firstName`: Required, max 128 characters\n- `lastName`: Optional, max 128 characters\n- `email`: Required, valid email format\n- `password`: Required, minimum 6 characters\n- `nationalId`: Required, exactly 14 digits\n- `address`: Optional, max 512 characters\n- `phoneNumber`: Optional, valid phone format"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Car",
+			"description": "Car listing management endpoints",
+			"item": [
+				{
+					"name": "Get All Cars",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Car?PageNumber=1&PageSize=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["Car"],
+							"query": [
+								{
+									"key": "PageNumber",
+									"value": "1",
+									"description": "Page number (default: 1)"
+								},
+								{
+									"key": "PageSize",
+									"value": "10",
+									"description": "Items per page (default: 10)"
+								},
+								{
+									"key": "MakeId",
+									"value": "1",
+									"description": "Filter by make ID",
+									"disabled": true
+								},
+								{
+									"key": "ModelId",
+									"value": "1",
+									"description": "Filter by model ID",
+									"disabled": true
+								},
+								{
+									"key": "BodyTypeId",
+									"value": "1",
+									"description": "Filter by body type ID",
+									"disabled": true
+								},
+								{
+									"key": "FuelId",
+									"value": "1",
+									"description": "Filter by fuel type ID",
+									"disabled": true
+								},
+								{
+									"key": "LocId",
+									"value": "1",
+									"description": "Filter by location ID",
+									"disabled": true
+								},
+								{
+									"key": "MinPrice",
+									"value": "10000",
+									"description": "Minimum price filter",
+									"disabled": true
+								},
+								{
+									"key": "MaxPrice",
+									"value": "50000",
+									"description": "Maximum price filter",
+									"disabled": true
+								},
+								{
+									"key": "Year",
+									"value": "2023",
+									"description": "Filter by year",
+									"disabled": true
+								},
+								{
+									"key": "Condition",
+									"value": "0",
+									"description": "Filter by condition (0=New, 1=Used)",
+									"disabled": true
+								},
+								{
+									"key": "MinMileage",
+									"value": "0",
+									"description": "Minimum mileage filter",
+									"disabled": true
+								},
+								{
+									"key": "MaxMileage",
+									"value": "50000",
+									"description": "Maximum mileage filter",
+									"disabled": true
+								},
+								{
+									"key": "GearType",
+									"value": "0",
+									"description": "Filter by gear type (0=Manual, 1=Automatic)",
+									"disabled": true
+								},
+								{
+									"key": "SearchTerm",
+									"value": "BMW",
+									"description": "Text search term",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all cars with pagination and filtering. **Requires authentication.**\n\n**Note:** Vendors will only see their own cars, while Admins and Customers see all cars.\n\n**Query Parameters:**\n- Pagination: `PageNumber`, `PageSize`\n- Filters: `MakeId`, `ModelId`, `BodyTypeId`, `FuelId`, `LocId`\n- Range filters: `MinPrice`, `MaxPrice`, `Year`, `MinMileage`, `MaxMileage`\n- Enum filters: `Condition` (0=New, 1=Used), `GearType` (0=Manual, 1=Automatic)\n- Text search: `SearchTerm`"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Car by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Car/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["Car", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "car-guid-here",
+									"description": "Car ID (GUID)"
+								}
+							]
+						},
+						"description": "Get detailed information about a specific car. **Requires authentication.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Year",
+									"value": "2024",
+									"description": "Car year (1900-2026)",
+									"type": "text"
+								},
+								{
+									"key": "Price",
+									"value": "35000.00",
+									"description": "Car price (must be > 0)",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "Beautiful car in excellent condition",
+									"description": "Optional description (max 2048 chars)",
+									"type": "text"
+								},
+								{
+									"key": "ModelId",
+									"value": "1",
+									"description": "Model ID (required)",
+									"type": "text"
+								},
+								{
+									"key": "BodyTypeId",
+									"value": "1",
+									"description": "Body type ID (required)",
+									"type": "text"
+								},
+								{
+									"key": "FuelId",
+									"value": "1",
+									"description": "Fuel type ID (required)",
+									"type": "text"
+								},
+								{
+									"key": "LocId",
+									"value": "1",
+									"description": "Location ID (required)",
+									"type": "text"
+								},
+								{
+									"key": "Condition",
+									"value": "0",
+									"description": "Car condition (0=New, 1=Used)",
+									"type": "text"
+								},
+								{
+									"key": "Mileage",
+									"value": "0",
+									"description": "Mileage (optional, >= 0)",
+									"type": "text"
+								},
+								{
+									"key": "LastInspectionDate",
+									"value": "2024-01-01",
+									"description": "Last inspection date (optional)",
+									"type": "text"
+								},
+								{
+									"key": "GearType",
+									"value": "1",
+									"description": "Gear type (0=Manual, 1=Automatic)",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"description": "Car images (optional, multiple files allowed)",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Car",
+							"host": ["{{baseUrl}}"],
+							"path": ["Car"]
+						},
+						"description": "Add a new car listing with optional images. **Requires Admin or Vendor role.**\n\n**Form Data:**\n- `Year`: Required, 1900-2026\n- `Price`: Required, must be > 0\n- `Description`: Optional, max 2048 characters\n- `ModelId`: Required\n- `BodyTypeId`: Required\n- `FuelId`: Required\n- `LocId`: Required\n- `Condition`: Required (0=New, 1=Used)\n- `Mileage`: Optional, >= 0\n- `LastInspectionDate`: Optional\n- `GearType`: Required (0=Manual, 1=Automatic)\n- `images`: Optional, multiple image files"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Year",
+									"value": "2024",
+									"description": "Car year (1900-2026)",
+									"type": "text"
+								},
+								{
+									"key": "Price",
+									"value": "32000.00",
+									"description": "Updated price",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "Updated description",
+									"description": "Optional description",
+									"type": "text"
+								},
+								{
+									"key": "ModelId",
+									"value": "1",
+									"description": "Model ID",
+									"type": "text"
+								},
+								{
+									"key": "BodyTypeId",
+									"value": "1",
+									"description": "Body type ID",
+									"type": "text"
+								},
+								{
+									"key": "FuelId",
+									"value": "1",
+									"description": "Fuel type ID",
+									"type": "text"
+								},
+								{
+									"key": "LocId",
+									"value": "1",
+									"description": "Location ID",
+									"type": "text"
+								},
+								{
+									"key": "Condition",
+									"value": "1",
+									"description": "Car condition",
+									"type": "text"
+								},
+								{
+									"key": "Mileage",
+									"value": "5000",
+									"description": "Updated mileage",
+									"type": "text"
+								},
+								{
+									"key": "LastInspectionDate",
+									"value": "2024-06-01",
+									"description": "Last inspection date",
+									"type": "text"
+								},
+								{
+									"key": "GearType",
+									"value": "1",
+									"description": "Gear type",
+									"type": "text"
+								},
+								{
+									"key": "newImages",
+									"description": "New images to add (optional)",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "imagesToDeleteJson",
+									"value": "[\"image1.jpg\", \"image2.jpg\"]",
+									"description": "JSON array of image URLs to delete",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Car/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["Car", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "car-guid-here",
+									"description": "Car ID (GUID)"
+								}
+							]
+						},
+						"description": "Update an existing car listing. **Requires Admin or Vendor role.**\n\n**Note:** Admin can update any car, Vendor can only update their own cars.\n\n**Form Data:**\n- Same fields as Add Car\n- `newImages`: New image files to add\n- `imagesToDeleteJson`: JSON array of image URLs to delete"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Car/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["Car", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "car-guid-here",
+									"description": "Car ID (GUID)"
+								}
+							]
+						},
+						"description": "Delete a car and all its associated images. **Requires Admin or Vendor role.**\n\n**Note:** Admin can delete any car, Vendor can only delete their own cars."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Make",
+			"description": "Car manufacturer (make) management endpoints",
+			"item": [
+				{
+					"name": "Get All Makes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Make",
+							"host": ["{{baseUrl}}"],
+							"path": ["Make"]
+						},
+						"description": "Get all car makes/manufacturers. **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Make by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Make/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["Make", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Make ID"
+								}
+							]
+						},
+						"description": "Get a specific make by ID. **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Make",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"makeName\": \"Toyota\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Make",
+							"host": ["{{baseUrl}}"],
+							"path": ["Make"]
+						},
+						"description": "Add a new car make/manufacturer. **Requires Admin role.**\n\n**Body:**\n- `makeName`: Required, max 128 characters"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Make",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"makeId\": 1,\n    \"makeName\": \"Toyota Motor Corporation\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Make",
+							"host": ["{{baseUrl}}"],
+							"path": ["Make"]
+						},
+						"description": "Update an existing make. **Requires Admin role.**\n\n**Body:**\n- `makeId`: Required, the ID of the make to update\n- `makeName`: Required, max 128 characters"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Make",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Make/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["Make", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Make ID"
+								}
+							]
+						},
+						"description": "Delete a make. **Requires Admin role.**"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Model",
+			"description": "Car model management endpoints",
+			"item": [
+				{
+					"name": "Get All Models",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Model",
+							"host": ["{{baseUrl}}"],
+							"path": ["Model"]
+						},
+						"description": "Get all car models. **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Model by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Model/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["Model", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Model ID"
+								}
+							]
+						},
+						"description": "Get a specific model by ID. **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Model",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"modelName\": \"Camry\",\n    \"makeId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Model",
+							"host": ["{{baseUrl}}"],
+							"path": ["Model"]
+						},
+						"description": "Add a new car model. **Requires Admin role.**\n\n**Body:**\n- `modelName`: Required, max 128 characters\n- `makeId`: Required, the ID of the parent make"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Model",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"modelId\": 1,\n    \"modelName\": \"Camry XLE\",\n    \"makeId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Model",
+							"host": ["{{baseUrl}}"],
+							"path": ["Model"]
+						},
+						"description": "Update an existing model. **Requires Admin role.**\n\n**Body:**\n- `modelId`: Required, the ID of the model to update\n- `modelName`: Required, max 128 characters\n- `makeId`: Required, the ID of the parent make"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Model",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Model/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["Model", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Model ID"
+								}
+							]
+						},
+						"description": "Delete a model. **Requires Admin role.**"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BodyType",
+			"description": "Car body type management endpoints",
+			"item": [
+				{
+					"name": "Get All Body Types",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/BodyType",
+							"host": ["{{baseUrl}}"],
+							"path": ["BodyType"]
+						},
+						"description": "Get all body types (Sedan, SUV, Hatchback, etc.). **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Body Type by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/BodyType/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["BodyType", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Body Type ID"
+								}
+							]
+						},
+						"description": "Get a specific body type by ID. **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Body Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"SUV\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/BodyType",
+							"host": ["{{baseUrl}}"],
+							"path": ["BodyType"]
+						},
+						"description": "Add a new body type. **Requires Admin role.**\n\n**Body:**\n- `name`: Required, max 128 characters"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Body Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bodyId\": 1,\n    \"name\": \"Sport Utility Vehicle\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/BodyType",
+							"host": ["{{baseUrl}}"],
+							"path": ["BodyType"]
+						},
+						"description": "Update an existing body type. **Requires Admin role.**\n\n**Body:**\n- `bodyId`: Required, the ID of the body type to update\n- `name`: Required, max 128 characters"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Body Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/BodyType/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["BodyType", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Body Type ID"
+								}
+							]
+						},
+						"description": "Delete a body type. **Requires Admin role.**"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FuelType",
+			"description": "Fuel type management endpoints",
+			"item": [
+				{
+					"name": "Get All Fuel Types",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/FuelType",
+							"host": ["{{baseUrl}}"],
+							"path": ["FuelType"]
+						},
+						"description": "Get all fuel types (Petrol, Diesel, Electric, etc.). **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Fuel Type by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/FuelType/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["FuelType", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Fuel Type ID"
+								}
+							]
+						},
+						"description": "Get a specific fuel type by ID. **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Fuel Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Electric\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/FuelType",
+							"host": ["{{baseUrl}}"],
+							"path": ["FuelType"]
+						},
+						"description": "Add a new fuel type. **Requires Admin role.**\n\n**Body:**\n- `name`: Required, max 128 characters"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Fuel Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fuelId\": 1,\n    \"name\": \"Petrol/Gasoline\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/FuelType",
+							"host": ["{{baseUrl}}"],
+							"path": ["FuelType"]
+						},
+						"description": "Update an existing fuel type. **Requires Admin role.**\n\n**Body:**\n- `fuelId`: Required, the ID of the fuel type to update\n- `name`: Required, max 128 characters"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Fuel Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/FuelType/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["FuelType", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Fuel Type ID"
+								}
+							]
+						},
+						"description": "Delete a fuel type. **Requires Admin role.**"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LocationCity",
+			"description": "Location/city management endpoints",
+			"item": [
+				{
+					"name": "Get All Locations",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/LocationCity",
+							"host": ["{{baseUrl}}"],
+							"path": ["LocationCity"]
+						},
+						"description": "Get all locations/cities. **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Location by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/LocationCity/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["LocationCity", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Location ID"
+								}
+							]
+						},
+						"description": "Get a specific location by ID. **No authentication required.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cairo\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/LocationCity",
+							"host": ["{{baseUrl}}"],
+							"path": ["LocationCity"]
+						},
+						"description": "Add a new location/city. **Requires Admin role.**\n\n**Body:**\n- `name`: Required, max 128 characters"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"locId\": 1,\n    \"name\": \"Cairo, Egypt\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/LocationCity",
+							"host": ["{{baseUrl}}"],
+							"path": ["LocationCity"]
+						},
+						"description": "Update an existing location. **Requires Admin role.**\n\n**Body:**\n- `locId`: Required, the ID of the location to update\n- `name`: Required, max 128 characters"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/LocationCity/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["LocationCity", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Location ID"
+								}
+							]
+						},
+						"description": "Delete a location. **Requires Admin role.**"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorite",
+			"description": "Customer favorites management endpoints",
+			"item": [
+				{
+					"name": "Get My Favorites",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Favorite",
+							"host": ["{{baseUrl}}"],
+							"path": ["Favorite"]
+						},
+						"description": "Get all favorite cars for the authenticated customer. **Requires Customer role.**"
+					},
+					"response": []
+				},
+				{
+					"name": "Add to Favorites",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"carId\": \"car-guid-here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Favorite",
+							"host": ["{{baseUrl}}"],
+							"path": ["Favorite"]
+						},
+						"description": "Add a car to favorites. **Requires Customer role.**\n\n**Body:**\n- `carId`: Required, the GUID of the car to add to favorites"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Favorites",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Favorite/:carId",
+							"host": ["{{baseUrl}}"],
+							"path": ["Favorite", ":carId"],
+							"variable": [
+								{
+									"key": "carId",
+									"value": "car-guid-here",
+									"description": "Car ID (GUID)"
+								}
+							]
+						},
+						"description": "Remove a car from favorites. **Requires Customer role.**"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

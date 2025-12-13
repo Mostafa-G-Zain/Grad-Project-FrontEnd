@@ -1,84 +1,125 @@
-<!-- src/app/features/auth/pages/register/register.html -->
+<!-- src/app/features/auth/pages/register-customer/register-customer.html -->
 
-<div class="auth-page py-5">
-    <div class="container h-100">
-        <div class="row justify-content-center align-items-center h-100">
-            <div class="col-md-6 col-lg-5">
-                <!-- Header / Icon -->
-                <div class="auth-header text-center mb-4">
-                    <div class="auth-icon mb-3">
-                        <i class="fa-solid fa-user-plus"></i>
-                    </div>
-                    <h3 class="mb-1">Create your account</h3>
-                    <p class="text-muted mb-0">
-                        Join Car Nest and Explore a vast variety of quality used and new cars.
-                    </p>
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div class="max-w-lg mx-auto">
+        <!-- Header / Icon -->
+        <div class="text-center mb-8">
+            <div class="mb-4 text-5xl text-blue-600 dark:text-blue-400">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <h3 class="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Create your account</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-lg">
+                Join Car Rental and Explore a vast variety of quality used and new cars.
+            </p>
+        </div>
+
+        <!-- Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-8">
+            @if (error) {
+            <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg mb-4 whitespace-pre-line">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                    <span>{{ error }}</span>
                 </div>
+            </div>
+            }
 
-                <!-- Card -->
-                <div class="card auth-card shadow-sm border-0 rounded-4">
-                    <div class="card-body p-4">
-                        @if (error) {
-                        <div class="alert alert-danger py-2 mb-3">{{ error }}</div>
-                        }
-
-                        <form [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">First name</label>
-                                    <input class="form-control" formControlName="firstName" placeholder="Ahmed" />
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Last name</label>
-                                    <input class="form-control" formControlName="lastName" placeholder="Ali" />
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" formControlName="email"
-                                    placeholder="you@example.com" />
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control" formControlName="password"
-                                    placeholder="••••••••" />
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">National ID</label>
-                                <input class="form-control" formControlName="nationalId" placeholder="2980..." />
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Address</label>
-                                <input class="form-control" formControlName="address" placeholder="City, Street..." />
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Phone number</label>
-                                <input class="form-control" formControlName="phoneNumber" placeholder="01xxxxxxxxx" />
-                            </div>
-
-                            <button class="btn btn-primary w-100 auth-submit-btn" type="submit"
-                                [disabled]="loading || registerForm.invalid">
-                                @if (loading) {
-                                <span class="spinner-border spinner-border-sm me-2"></span>
-                                Registering...
-                                } @else {
-                                Sign Up
-                                }
-                            </button>
-                        </form>
-
-                        <p class="text-center text-muted small mt-3 mb-0">
-                            Already have an account?
-                            <button class="btn" style="color: #25aada;" routerLink="/login">Login</button>
-                        </p>
+            <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                            <i class="fa-solid fa-user mr-2 text-blue-600 dark:text-blue-400"></i>
+                            First name
+                        </label>
+                        <input class="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all outline-none" 
+                               formControlName="firstName" 
+                               placeholder="Ahmed" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                            <i class="fa-solid fa-user mr-2 text-blue-600 dark:text-blue-400"></i>
+                            Last name
+                        </label>
+                        <input class="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all outline-none" 
+                               formControlName="lastName" 
+                               placeholder="Ali" />
                     </div>
                 </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                        <i class="fa-solid fa-envelope mr-2 text-blue-600 dark:text-blue-400"></i>
+                        Email Address
+                    </label>
+                    <input type="email" 
+                           class="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all outline-none" 
+                           formControlName="email"
+                           placeholder="you@example.com" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                        <i class="fa-solid fa-lock mr-2 text-blue-600 dark:text-blue-400"></i>
+                        Password
+                    </label>
+                    <input type="password" 
+                           class="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all outline-none" 
+                           formControlName="password"
+                           placeholder="••••••••" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                        <i class="fa-solid fa-id-card mr-2 text-blue-600 dark:text-blue-400"></i>
+                        National ID
+                    </label>
+                    <input class="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all outline-none" 
+                           formControlName="nationalId" 
+                           placeholder="2980..." />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                        <i class="fa-solid fa-location-dot mr-2 text-blue-600 dark:text-blue-400"></i>
+                        Address
+                    </label>
+                    <input class="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all outline-none" 
+                           formControlName="address" 
+                           placeholder="City, Street..." />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                        <i class="fa-solid fa-phone mr-2 text-blue-600 dark:text-blue-400"></i>
+                        Phone number
+                    </label>
+                    <input class="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all outline-none" 
+                           formControlName="phoneNumber" 
+                           placeholder="01xxxxxxxxx" />
+                </div>
+
+                <button class="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-4 shadow-md hover:shadow-lg transform hover:-translate-y-0.5" 
+                        type="submit"
+                        [disabled]="loading || registerForm.invalid">
+                    @if (loading) {
+                    <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></span>
+                    Registering...
+                    } @else {
+                    <i class="fa-solid fa-user-plus mr-2"></i>
+                    Sign Up
+                    }
+                </button>
+            </form>
+
+            <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <p class="text-center text-gray-600 dark:text-gray-400 text-sm">
+                    Already have an account?
+                    <a routerLink="/login" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold ml-1 transition-colors">
+                        Login
+                    </a>
+                </p>
             </div>
         </div>
     </div>
 </div>
+

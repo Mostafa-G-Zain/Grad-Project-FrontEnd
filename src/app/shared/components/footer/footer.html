@@ -1,0 +1,79 @@
+<footer class="bg-gray-900 dark:bg-gray-950 text-white mt-auto border-t border-gray-800 dark:border-gray-900">
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- About -->
+      <div>
+        <h3 class="text-lg font-bold mb-4 flex items-center">
+          <img src="/logo.png" alt="Car Rental Logo" class="h-8 w-8 mr-2 object-contain" />
+          Car Rental
+        </h3>
+        <p class="text-gray-400 dark:text-gray-500 text-sm">
+          Find your perfect car from a wide selection of quality vehicles. Browse new and used cars from trusted sellers.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-md font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a routerLink="/" class="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors">
+              Home
+            </a>
+          </li>
+          <li>
+            <a routerLink="/cars" class="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors">
+              Browse Cars
+            </a>
+          </li>
+          <li>
+            <a routerLink="/register-customer" class="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors">
+              Register
+            </a>
+          </li>
+          <li>
+            <a routerLink="/login" class="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors">
+              Login
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="text-md font-semibold mb-4">Services</h4>
+        <ul class="space-y-2 text-sm">
+          <li class="text-gray-400 dark:text-gray-500">New Cars</li>
+          <li class="text-gray-400 dark:text-gray-500">Used Cars</li>
+          <li class="text-gray-400 dark:text-gray-500">Sell Your Car</li>
+          <li class="text-gray-400 dark:text-gray-500">Car Financing</li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="text-md font-semibold mb-4">Contact Us</h4>
+        <ul class="space-y-2 text-sm">
+          <li class="text-gray-400 dark:text-gray-500 flex items-center">
+            <i class="fa-solid fa-envelope mr-2"></i>
+            info@carrental.com
+          </li>
+          <li class="text-gray-400 dark:text-gray-500 flex items-center">
+            <i class="fa-solid fa-phone mr-2"></i>
+            +1 (555) 123-4567
+          </li>
+          <li class="text-gray-400 dark:text-gray-500 flex items-center">
+            <i class="fa-solid fa-location-dot mr-2"></i>
+            123 Car Street, City
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-gray-800 dark:border-gray-900 mt-8 pt-6 text-center text-sm text-gray-400 dark:text-gray-600">
+      <p>&copy; {{ currentYear }} Car Rental. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+

@@ -20,7 +20,7 @@ import {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './car-manage.html',
-  styleUrl: './car-manage.scss'
+  styleUrl: './car-manage.css'
 })
 export class CarManageComponent implements OnInit {
   private carService = inject(CarService);
@@ -150,6 +150,7 @@ export class CarManageComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     const value = this.carForm.value;
     console.log('Form value:', value); 
 
@@ -273,3 +274,4 @@ export class CarManageComponent implements OnInit {
     return 'other';
   }
 }
+

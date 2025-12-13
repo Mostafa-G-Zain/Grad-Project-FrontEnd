@@ -10,7 +10,7 @@ import { IRegisterRequest } from '../../../../shared/models/user.model';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register-vendor.html',
-  styleUrl: './register-vendor.scss',
+  styleUrl: './register-vendor.css',
 })
 export class RegisterVendorComponent {
   private fb = inject(FormBuilder);
@@ -71,3 +71,4 @@ register() {
 }
 
 }
+

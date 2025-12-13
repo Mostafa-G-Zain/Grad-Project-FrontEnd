@@ -89,3 +89,4 @@ export interface IPagedResponse<T> {
   totalRecords: number;
   data: T[];
 }
+

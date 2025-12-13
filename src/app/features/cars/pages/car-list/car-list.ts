@@ -19,7 +19,7 @@ import {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, CurrencyPipe, RouterLink],
   templateUrl: './car-list.html',
-  styleUrl: './car-list.scss'
+  styleUrl: './car-list.css'
 })
 export class CarListComponent implements OnInit {
   private carService = inject(CarService);
@@ -74,7 +74,7 @@ export class CarListComponent implements OnInit {
 
 
   loadPage(page: number) {
-    if (page > 1) return;
+    if (page < 1) return;
     this.loading.set(true);
 
     const raw = this.filterForm.getRawValue();
@@ -99,6 +99,8 @@ export class CarListComponent implements OnInit {
         this.totalPages.set(res.totalPages);
         this.totalRecords.set(res.totalRecords);
         this.loading.set(false);
+        // Scroll to top of results
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       error: err => {
         console.log(err);
@@ -127,7 +129,19 @@ export class CarListComponent implements OnInit {
 
 
   resetFilters() {
-    this.filterForm.reset();
+    this.filterForm.reset({
+      search: '',
+      makeId: '',
+      modelId: '',
+      bodyTypeId: '',
+      fuelId: '',
+      locId: '',
+      minPrice: '',
+      maxPrice: '',
+      year: '',
+      condition: null,
+      gearType: null
+    });
     this.models.set([]);
     this.applyFilters();
   }
@@ -140,4 +154,41 @@ export class CarListComponent implements OnInit {
     return this.pageNumber() < this.totalPages();
   }
 
+  getMinPrice(): number {
+    const value = this.filterForm.get('minPrice')?.value;
+    return value ? Number(value) : this.priceRange().min;
+  }
+
+  getMaxPrice(): number {
+    const value = this.filterForm.get('maxPrice')?.value;
+    return value ? Number(value) : this.priceRange().max;
+  }
+
+  onMinPriceChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = Number(target.value);
+    const maxPrice = this.getMaxPrice();
+    
+    // Ensure min doesn't exceed max
+    if (value > maxPrice) {
+      this.filterForm.patchValue({ minPrice: maxPrice.toString() });
+    } else {
+      this.filterForm.patchValue({ minPrice: value.toString() });
+    }
+  }
+
+  onMaxPriceChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = Number(target.value);
+    const minPrice = this.getMinPrice();
+    
+    // Ensure max doesn't go below min
+    if (value < minPrice) {
+      this.filterForm.patchValue({ maxPrice: minPrice.toString() });
+    } else {
+      this.filterForm.patchValue({ maxPrice: value.toString() });
+    }
+  }
+
 }
+

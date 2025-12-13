@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CarService } from '../../../../core/services/car.service';
 import { ICar, CarCondition, CarGearType } from '../../../../shared/models/car.model';
@@ -9,9 +9,9 @@ import { AuthService } from '../../../../core/services/auth.service';
 @Component({
   selector: 'app-car-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, CurrencyPipe, DatePipe],
+  imports: [CommonModule, RouterLink, CurrencyPipe, DatePipe, NgClass],
   templateUrl: './car-details.html',
-  styleUrl: './car-details.scss'
+  styleUrl: './car-details.css'
 })
 export class CarDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -33,6 +33,11 @@ export class CarDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Scroll to top on first load
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {
@@ -90,3 +95,4 @@ export class CarDetailsComponent implements OnInit {
 
 
 }
+

@@ -1,71 +1,175 @@
-<section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-5 fw-bold mb-3">Find Your Perfect Car</h1>
-                <p class="lead mb-4">Browse a vast selection of quality used and new cars.</p>
+<section class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-20 px-4 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <div class="container mx-auto relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="text-white">
+                <div class="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+                    <span class="text-sm font-semibold">🚗 Your Dream Car Awaits</span>
+                </div>
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
+                    Find Your Perfect
+                    <span class="block text-yellow-300 dark:text-yellow-400">Car Today</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-blue-100 dark:text-gray-300 leading-relaxed">
+                    Browse thousands of quality vehicles. From luxury sedans to family SUVs, find the perfect car that matches your lifestyle.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a routerLink="/cars" 
+                       class="bg-white text-blue-600 hover:bg-yellow-300 dark:bg-yellow-400 dark:text-gray-900 px-8 py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl text-center">
+                        <i class="fa-solid fa-magnifying-glass mr-2"></i>
+                        Browse Cars
+                    </a>
+                    <a routerLink="/register-customer" 
+                       class="bg-transparent border-2 border-white text-white hover:bg-white/20 px-8 py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105 text-center">
+                        <i class="fa-solid fa-user-plus mr-2"></i>
+                        Get Started
+                    </a>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/20">
+                    <div>
+                        <div class="text-3xl font-bold text-yellow-300 dark:text-yellow-400">10K+</div>
+                        <div class="text-blue-100 dark:text-gray-400 text-sm">Cars Available</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-yellow-300 dark:text-yellow-400">5K+</div>
+                        <div class="text-blue-100 dark:text-gray-400 text-sm">Happy Customers</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-yellow-300 dark:text-yellow-400">500+</div>
+                        <div class="text-blue-100 dark:text-gray-400 text-sm">Trusted Sellers</div>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6">
-                <div class="hero-img-container">
+            <div class="relative">
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
                     <img src="https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg"
-                        class="img-fluid rounded-4 shadow-lg" alt="Car">
+                        class="w-full h-96 md:h-[500px] object-cover" alt="Luxury Car">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>
+                </div>
+                <!-- Floating Cards -->
+                <div class="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl hidden lg:block">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-green-100 dark:bg-green-900 p-2 rounded-lg">
+                            <i class="fa-solid fa-shield-check text-green-600 dark:text-green-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-900 dark:text-white">Verified</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Quality Assured</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute -top-6 -right-6 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-xl hidden lg:block">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg">
+                            <i class="fa-solid fa-star text-yellow-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-900 dark:text-white">4.8 Rating</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Customer Reviews</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<div class="container py-5">
-    <div class="row g-4">
+<div class="container mx-auto py-16 px-4">
+    <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">What We Offer</h2>
+        <p class="text-xl text-gray-600 dark:text-gray-400">Choose the perfect option for your needs</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- New Cars -->
-        <div class="col-md-4">
-            <div class="card shadow-sm home-card">
-                <img src="https://www.motorbeam.com/wp-content/uploads/2024-Kia-Carnival-Specs.jpg" class="card-img-top"
-                    alt="New cars">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">New cars</h5>
-                    <p class="card-text flex-grow-1">
-                        Browse the latest new cars available on the market.
-                    </p>
-                    <a class="btn btn-reveal" [routerLink]="['/cars']" [queryParams]="{ type: 'new' }">
-                        Explore new cars
-                    </a>
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700">
+            <div class="relative h-48 overflow-hidden">
+                <img src="https://www.motorbeam.com/wp-content/uploads/2024-Kia-Carnival-Specs.jpg" 
+                     class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300"
+                     alt="New cars">
+                <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    <i class="fa-solid fa-sparkles mr-1"></i> New
                 </div>
+            </div>
+            <div class="p-6 flex flex-col">
+                <div class="flex items-center mb-3">
+                    <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg mr-3">
+                        <i class="fa-solid fa-car text-blue-600 dark:text-blue-400 text-2xl"></i>
+                    </div>
+                    <h5 class="text-2xl font-bold text-gray-900 dark:text-white">New Cars</h5>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-6 flex-grow">
+                    Browse the latest new cars available on the market with warranty and financing options.
+                </p>
+                <a class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105 text-center shadow-md hover:shadow-lg" 
+                   [routerLink]="['/cars']" [queryParams]="{ type: 'new' }">
+                    <i class="fa-solid fa-arrow-right mr-2"></i>
+                    Explore new cars
+                </a>
             </div>
         </div>
 
         <!-- Used Cars -->
-        <div class="col-md-4">
-            <div class="card shadow-sm home-card">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700">
+            <div class="relative h-48 overflow-hidden">
                 <img src="https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/newscms/2019_42/3052526/191015-used-car-mn-0920.jpg"
-                    class="card-img-top" alt="Used cars">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Used cars</h5>
-                    <p class="card-text flex-grow-1">
-                        Find great deals on used cars from trusted sellers.
-                    </p>
-                    <a class="btn btn-reveal" [routerLink]="['/cars']" [queryParams]="{ type: 'used' }">
-                        Browse used cars
-                    </a>
+                     class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300"
+                     alt="Used cars">
+                <div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    <i class="fa-solid fa-tag mr-1"></i> Best Deals
                 </div>
+            </div>
+            <div class="p-6 flex flex-col">
+                <div class="flex items-center mb-3">
+                    <div class="bg-orange-100 dark:bg-orange-900 p-3 rounded-lg mr-3">
+                        <i class="fa-solid fa-car-side text-orange-600 dark:text-orange-400 text-2xl"></i>
+                    </div>
+                    <h5 class="text-2xl font-bold text-gray-900 dark:text-white">Used Cars</h5>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-6 flex-grow">
+                    Find great deals on quality used cars from trusted sellers with verified history.
+                </p>
+                <a class="bg-orange-600 hover:bg-orange-700 dark:bg-orange-700 dark:hover:bg-orange-800 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105 text-center shadow-md hover:shadow-lg" 
+                   [routerLink]="['/cars']" [queryParams]="{ type: 'used' }">
+                    <i class="fa-solid fa-arrow-right mr-2"></i>
+                    Browse used cars
+                </a>
             </div>
         </div>
 
         <!-- Sell Your Car -->
-        <div class="col-md-4">
-            <div class="card shadow-sm home-card">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700">
+            <div class="relative h-48 overflow-hidden">
                 <img src="https://www.experian.com/blogs/ask-experian/wp-content/uploads/Closeup-Photo-Of-Two-Hands-Exchanging-Car-Keys-And-Cash.jpg.webp"
-                    class="card-img-top" alt="Sell your car">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Sell your car</h5>
-                    <p class="card-text flex-grow-1">
-                        List your car and reach thousands of potential buyers.
-                    </p>
-                    <a class="btn btn-reveal mt-2" [routerLink]="['/car-manage/add']">
-                        Start selling
-                    </a>
+                     class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300"
+                     alt="Sell your car">
+                <div class="absolute top-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    <i class="fa-solid fa-dollar-sign mr-1"></i> Sell Now
                 </div>
+            </div>
+            <div class="p-6 flex flex-col">
+                <div class="flex items-center mb-3">
+                    <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-lg mr-3">
+                        <i class="fa-solid fa-hand-holding-dollar text-purple-600 dark:text-purple-400 text-2xl"></i>
+                    </div>
+                    <h5 class="text-2xl font-bold text-gray-900 dark:text-white">Sell Your Car</h5>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mb-6 flex-grow">
+                    List your car and reach thousands of potential buyers. Quick and easy process.
+                </p>
+                <a class="bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-800 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105 text-center shadow-md hover:shadow-lg" 
+                   [routerLink]="['/car-manage/add']">
+                    <i class="fa-solid fa-arrow-right mr-2"></i>
+                    Start selling
+                </a>
             </div>
         </div>
     </div>
 </div>
+

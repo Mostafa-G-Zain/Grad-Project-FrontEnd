@@ -55,7 +55,12 @@ export class CarService {
   }
 
   getBodyTypes(): Observable<IBodyType[]> {
-    return this.http.get<IBodyType[]>(`${this.baseUrl}/BodyType`);
+    return this.http.get<any[]>(`${this.baseUrl}/BodyType`).pipe(
+      map(bodyTypes => bodyTypes.map(bt => ({
+        bodyTypeId: bt.bodyId,
+        name: bt.name
+      })))
+    );
   }
 
   getFuelTypes(): Observable<IFuelType[]> {
@@ -87,3 +92,4 @@ export class CarService {
     return this.http.post(`${this.baseUrl}/Car/${carId}/images`, formData);
   }
 }
+

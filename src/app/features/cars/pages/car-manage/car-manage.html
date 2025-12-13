@@ -1,134 +1,132 @@
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0 rounded-4">
-                <div class="card-body p-4">
-                    <h3 class="mb-3">
-                        {{ isEditMode ? 'Edit Car' : 'Sell a Car' }}
-                    </h3>
+<div class="container mx-auto py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transition-colors">
+            <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                {{ isEditMode ? 'Edit Car' : 'Sell a Car' }}
+            </h3>
 
-                    <form [formGroup]="carForm" (ngSubmit)="onSubmit()">
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <label class="form-label">Year</label>
-                                <input type="number" class="form-control" formControlName="Year" />
+            <form [formGroup]="carForm" (ngSubmit)="onSubmit()">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Year</label>
+                        <input type="number" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400" formControlName="Year" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Price</label>
+                        <input type="number" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400" formControlName="Price" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Mileage (km)</label>
+                        <input type="number" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400" formControlName="Mileage" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Inspection Date</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" formControlName="LastInspectionDate" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Condition</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" formControlName="Condition">
+                            <option [ngValue]="null">Select Condition</option>
+                            <option [value]="CarCondition.New">New</option>
+                            <option [value]="CarCondition.Used">Used</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gear Type</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" formControlName="GearType">
+                            <option [ngValue]="null">Select Gear</option>
+                            <option [value]="CarGearType.Manual">Manual</option>
+                            <option [value]="CarGearType.Automatic">Automatic</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Make</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" formControlName="MakeId" (change)="onMakeChange()">
+                            <option [ngValue]="null">Select make</option>
+                            @for (m of makes(); track m.makeId) {
+                            <option [value]="m.makeId">{{ m.makeName }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Model</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" formControlName="ModelId">
+                            <option [ngValue]="null">Select model</option>
+                            @for (mod of models(); track mod.modelId) {
+                            <option [value]="mod.modelId">{{ mod.modelName }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Body Type</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" formControlName="BodyTypeId">
+                            <option [ngValue]="null">Select body type</option>
+                            @for (b of bodyTypes(); track b.bodyTypeId) {
+                            <option [value]="b.bodyTypeId">{{ b.name }}</option>
+                            }
+                        </select>
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fuel</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" formControlName="FuelId">
+                            <option [ngValue]="null">Select fuel</option>
+                            @for (f of fuelTypes(); track f.fuelId) {
+                            <option [value]="f.fuelId">{{ f.name }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white" formControlName="LocId">
+                            <option [ngValue]="null">Select location</option>
+                            @for (l of locations(); track l.locId) {
+                            <option [value]="l.locId">{{ l.name }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-span-full">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                        <textarea class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400" rows="3" formControlName="Description"></textarea>
+                    </div>
+
+                    <div class="col-span-full">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Images</label>
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            @for (f of uploadedFiles; track $index; let i = $index) {
+                            <div class="relative">
+                                @if (getFileType(f.name) === 'image') {
+                                <img [src]="f.previewUrl"
+                                    class="w-20 h-20 object-cover rounded-lg border border-gray-300 dark:border-gray-600" />
+                                }
+                                <button type="button" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 dark:hover:bg-red-700"
+                                    (click)="removeFile(i)">×</button>
                             </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Price</label>
-                                <input type="number" class="form-control" formControlName="Price" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Mileage (km)</label>
-                                <input type="number" class="form-control" formControlName="Mileage" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Inspection Date</label>
-                                <input type="date" class="form-control" formControlName="LastInspectionDate" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Condition</label>
-                                <select class="form-select" formControlName="Condition">
-                                    <option [ngValue]="null">Select Condition</option>
-                                    <option [value]="CarCondition.New">New</option>
-                                    <option [value]="CarCondition.Used">Used</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Gear Type</label>
-                                <select class="form-select" formControlName="GearType">
-                                    <option [ngValue]="null">Select Gear</option>
-                                    <option [value]="CarGearType.Manual">Manual</option>
-                                    <option [value]="CarGearType.Automatic">Automatic</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label class="form-label">Make</label>
-                                <select class="form-select" formControlName="MakeId" (change)="onMakeChange()">
-                                    <option [ngValue]="null">Select make</option>
-                                    @for (m of makes(); track m.makeId) {
-                                    <option [value]="m.makeId">{{ m.makeName }}</option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label class="form-label">Model</label>
-                                <select class="form-select" formControlName="ModelId">
-                                    <option [ngValue]="null">Select model</option>
-                                    @for (mod of models(); track mod.modelId) {
-                                    <option [value]="mod.modelId">{{ mod.modelName }}</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Body Type</label>
-                                <select class="form-select" formControlName="BodyTypeId">
-                                    <option [ngValue]="null">Select body type</option>
-                                    @for (b of bodyTypes(); track b.bodyTypeId) {
-                                    <option [value]="b.bodyTypeId">{{ b.name }}</option>
-                                    }
-                                </select>
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <label class="form-label">Fuel</label>
-                                <select class="form-select" formControlName="FuelId">
-                                    <option [ngValue]="null">Select fuel</option>
-                                    @for (f of fuelTypes(); track f.fuelId) {
-                                    <option [value]="f.fuelId">{{ f.name }}</option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label">Location</label>
-                                <select class="form-select" formControlName="LocId">
-                                    <option [ngValue]="null">Select location</option>
-                                    @for (l of locations(); track l.locId) {
-                                    <option [value]="l.locId">{{ l.name }}</option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" rows="3" formControlName="Description"></textarea>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="form-label">Images</label>
-                                <div class="d-flex flex-wrap gap-2 mb-2">
-                                    @for (f of uploadedFiles; track $index; let i = $index) {
-                                    <div class="position-relative">
-                                        <img *ngIf="getFileType(f.name) === 'image'" [src]="f.previewUrl"
-                                            class="img-thumbnail"
-                                            style="width: 90px; height: 90px; object-fit: cover;" />
-                                        <button type="button" class="btn-close position-absolute top-0 end-0"
-                                            (click)="removeFile(i)"></button>
-                                    </div>
-                                    }
-                                </div>
-
-                                <input type="file" (change)="onFileSelected($event)" />
-                            </div>
-
+                            }
                         </div>
 
-                        <div class="text-end mt-4">
-                            <button type="submit" class="btn btn-primary" [disabled]="isLoading || carForm.invalid">
-                                {{ isEditMode ? 'Update' : 'Create' }}
-                            </button>
-                        </div>
-                    </form>
+                        <input type="file" accept="image/*" (change)="onFileSelected($event)" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-200 dark:hover:file:bg-blue-800" />
+                    </div>
+
                 </div>
-            </div>
+
+                <div class="text-right mt-6">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" [disabled]="isLoading || carForm.invalid">
+                        {{ isEditMode ? 'Update' : 'Create' }}
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+

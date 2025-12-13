@@ -8,6 +8,7 @@ import { RegisterCustomerComponent } from './features/auth/pages/register-custom
 import { RegisterVendorComponent } from './features/auth/pages/register-vendor/register-vendor';
 import { CarManageComponent } from './features/cars/pages/car-manage/car-manage';
 import { roleGuard } from './core/guards/role-guard';
+import { guestGuard } from './core/guards/guest-guard';
 
 export const routes: Routes = [
     {
@@ -34,17 +35,20 @@ export const routes: Routes = [
 
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [guestGuard]
     },
 
     {
         path: 'register-customer',
-        component: RegisterCustomerComponent
+        component: RegisterCustomerComponent,
+        canActivate: [guestGuard]
     },
 
     {
         path: 'register-vendor',
-        component: RegisterVendorComponent
+        component: RegisterVendorComponent,
+        canActivate: [guestGuard]
     },
 
     {

@@ -71,14 +71,32 @@ export class AuthService {
     const decoded: any = jwtDecode(token);
     console.log('Decoded Token:', decoded);
 
+    // Try multiple possible claim names for firstName
+    const firstName = 
+      decoded.firstName || 
+      decoded.given_name || 
+      decoded.givenname ||
+      decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'] ||
+      decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/givenname'] ||
+      '';
+
+    // Try multiple possible claim names for lastName
+    const lastName = 
+      decoded.lastName || 
+      decoded.family_name || 
+      decoded.surname ||
+      decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'] ||
+      decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/surname'] ||
+      '';
+
     return {
       id:
         decoded.userId ||
         decoded.sub ||
         decoded.nameid ||
         '',
-      firstName: decoded.firstName || decoded.given_name || '',
-      lastName: decoded.lastName || decoded.family_name || '',
+      firstName: firstName,
+      lastName: lastName,
       email: decoded.email || '',
       nationalId: decoded.nationalId || '',
       address: decoded.address || '',
@@ -91,3 +109,4 @@ export class AuthService {
     };
   }
 }
+

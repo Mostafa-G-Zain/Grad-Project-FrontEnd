@@ -1,269 +1,290 @@
 @if (!loading()) {
 @if (car(); as c) {
-<div class="container py-5">
+<div class="container mx-auto py-8 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <!-- Back to cars list -->
+  <div class="mb-4 mt-4">
+    <a routerLink="/cars" 
+       class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+      <i class="fa-solid fa-arrow-left mr-2"></i>
+      Back to cars list
+    </a>
+  </div>
+  
   <!-- Row 1: Images (full width) -->
-  <div class="row gy-4">
-    <div class="col-12">
-      <!-- Main image + carousel controls -->
-      <div class="main-image mb-3">
-        @if (c.imageUrls.length) {
-        <!-- Previous -->
-        <button type="button" class="carousel-control prev" (click)="prevImage()" [disabled]="c.imageUrls.length <= 1">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
+  <div class="mb-6">
+    <div class="relative max-w-4xl mx-auto">
+      @if (c.imageUrls.length) {
+      <!-- Previous -->
+      <button type="button" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-3 shadow-lg disabled:opacity-50 z-10 border border-gray-200 dark:border-gray-700 transition-colors" 
+              (click)="prevImage()" 
+              [disabled]="c.imageUrls.length <= 1">
+        <i class="fa-solid fa-chevron-left text-gray-800 dark:text-white"></i>
+      </button>
 
-        <!-- Stage with CSS animation -->
-        <div class="image-stage">
-          @for (img of c.imageUrls; track $index; let i = $index) {
-          @if (i === selectedImageIndex()) {
-          <img [src]="'https://carnest.runasp.net/' + img" class="img-fluid rounded-4 shadow-sm w-100 fade-image"
-            alt="Car image" />
-          }
-          }
-        </div>
-
-        <!-- Next -->
-        <button type="button" class="carousel-control next" (click)="nextImage()" [disabled]="c.imageUrls.length <= 1">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-
-        <!-- Indicators -->
-        <div class="carousel-indicators">
-          @for (img of c.imageUrls; track $index; let i = $index) {
-          <button type="button" class="indicator-dot" [class.active]="i === selectedImageIndex()"
-            (click)="setImage(i)"></button>
-          }
-        </div>
-        } @else {
-        <img src="assets/placeholder.jpg" class="img-fluid rounded-4 shadow-sm w-100" alt="Car image" />
+      <!-- Main image -->
+      <div class="relative mt-8">
+        @for (img of c.imageUrls; track $index; let i = $index) {
+        @if (i === selectedImageIndex()) {
+        <img [src]="'https://carnest.runasp.net/' + img" 
+             class="w-full max-w-4xl mx-auto h-96 md:h-[32rem] object-contain rounded-3xl shadow-xl"
+             alt="Car image" />
+        }
         }
       </div>
 
-      <!-- Thumbnails under main image -->
-      @if (c.imageUrls.length) {
-      <div class="d-flex flex-wrap gap-2">
+      <!-- Next -->
+      <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-3 shadow-lg disabled:opacity-50 z-10 border border-gray-200 dark:border-gray-700 transition-colors" 
+              (click)="nextImage()" 
+              [disabled]="c.imageUrls.length <= 1">
+        <i class="fa-solid fa-chevron-right text-gray-800 dark:text-white"></i>
+      </button>
+
+      <!-- Indicators -->
+      <div class="flex justify-center gap-2 mt-4">
         @for (img of c.imageUrls; track $index; let i = $index) {
-        <img [src]="'https://carnest.runasp.net/' + img" class="img-thumbnail thumb-img"
-          [class.active-thumb]="i === selectedImageIndex()" (click)="setImage(i)" alt="Car image" />
+        <button type="button" 
+                class="w-3 h-3 rounded-full transition-all" 
+                [ngClass]="{
+                  'bg-blue-600 dark:bg-blue-400': i === selectedImageIndex(),
+                  'bg-gray-300 dark:bg-gray-600': i !== selectedImageIndex()
+                }"
+                (click)="setImage(i)"></button>
         }
+      </div>
+      } @else {
+      <div class="mt-8">
+        <img src="assets/placeholder.jpg" 
+             class="w-full max-w-4xl mx-auto h-96 md:h-[32rem] object-contain rounded-3xl shadow-xl" 
+             alt="Car image" />
       </div>
       }
     </div>
+
+    <!-- Thumbnails under main image -->
+    @if (c.imageUrls.length) {
+    <div class="flex flex-wrap justify-center gap-3 mt-6 max-w-4xl mx-auto">
+      @for (img of c.imageUrls; track $index; let i = $index) {
+      <img [src]="'https://carnest.runasp.net/' + img" 
+           class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-xl cursor-pointer border-2 transition-all hover:scale-105"
+           [ngClass]="{
+             'border-blue-600 dark:border-blue-400': i === selectedImageIndex(),
+             'border-gray-300 dark:border-gray-600': i !== selectedImageIndex()
+           }"
+           (click)="setImage(i)" 
+           alt="Car thumbnail" />
+      }
+    </div>
+    }
   </div>
 
-  <!-- Row 2: Car info (2x width) + Seller info -->
-  <div class="row gy-4 mt-3">
-    <!-- Car info column (2/3 width تقريبًا) -->
-    <div class="col-lg-8 col-md-7">
-      <div class="card car-summary-card border-0 shadow-sm rounded-4 mb-3">
-        <div class="card-body">
-          <!-- Title + price + meta -->
-          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
-            <div>
-              <h3 class="car-title fw-bold mb-1">
-                {{ c.makeName }} {{ c.modelName }} {{ c.year }}
-              </h3>
+  <!-- Row 2: Car info + Seller info -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+    <!-- Car info column (2/3 width) -->
+    <div class="lg:col-span-2">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 p-6 mb-4 border border-gray-200 dark:border-gray-700">
+        <!-- Title + price + meta -->
+        <div class="flex justify-between items-start flex-wrap gap-4 mb-4">
+          <div>
+            <h3 class="text-2xl md:text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+              {{ c.makeName }} {{ c.modelName }} {{ c.year }}
+            </h3>
 
-              <div class="car-subtitle text-muted small d-flex flex-wrap align-items-center gap-2">
-                <span>
-                  <i class="fa-solid fa-calendar-days me-1"></i>
-                  {{ c.createdDate | date: 'mediumDate' }}
-                </span>
-                <span class="bullet-separator">•</span>
-                <span>
-                  <i class="fa-solid fa-location-dot me-1"></i>
-                  {{ c.locationName }}
-                </span>
-              </div>
-            </div>
-
-            <div class="text-md-end">
-              <div class="car-price text-primary fw-bold mb-1">
-                {{ c.price | currency: 'EGP ' }}
-              </div>
-              <span class="badge bg-light border text-primary small">
-                <i class="fa-solid fa-tag me-1"></i> For sale
+            <div class="text-gray-600 dark:text-gray-400 text-sm flex flex-wrap items-center gap-2">
+              <span class="flex items-center">
+                <i class="fa-solid fa-calendar-days me-1 text-blue-600 dark:text-blue-400"></i>
+                {{ c.createdDate | date: 'mediumDate' }}
+              </span>
+              <span class="text-gray-400 dark:text-gray-600">•</span>
+              <span class="flex items-center">
+                <i class="fa-solid fa-location-dot me-1 text-blue-600 dark:text-blue-400"></i>
+                {{ c.locationName }}
               </span>
             </div>
           </div>
 
-          <!-- Meta with icons -->
-          <div class="d-flex flex-wrap gap-3 car-meta">
-            <div class="car-meta-item">
-              <i class="fa-solid fa-car-side car-meta-icon"></i>
-              <div>
-                <div class="car-meta-label">Body</div>
-                <div class="car-meta-value">{{ c.bodyTypeName }}</div>
-              </div>
+          <div class="text-right">
+            <div class="text-blue-600 dark:text-blue-400 font-bold text-2xl md:text-3xl mb-1">
+              {{ c.price | currency: 'EGP ' }}
             </div>
-
-            <div class="car-meta-item">
-              <i class="fa-solid fa-gas-pump car-meta-icon"></i>
-              <div>
-                <div class="car-meta-label">Fuel</div>
-                <div class="car-meta-value">{{ c.fuelName }}</div>
-              </div>
-            </div>
-
-            <div class="car-meta-item">
-              <i class="fa-regular fa-calendar car-meta-icon"></i>
-              <div>
-                <div class="car-meta-label">Year</div>
-                <div class="car-meta-value">{{ c.year }}</div>
-              </div>
-            </div>
-
-            <!-- New Fields -->
-            <div class="car-meta-item">
-              <i class="fa-solid fa-gauge-high car-meta-icon"></i>
-              <div>
-                <div class="car-meta-label">Mileage</div>
-                <div class="car-meta-value">{{ c.mileage | number }} km</div>
-              </div>
-            </div>
-
-            <div class="car-meta-item">
-              <i class="fa-solid fa-gears car-meta-icon"></i>
-              <div>
-                <div class="car-meta-label">Gear Type</div>
-                <div class="car-meta-value">
-                  {{ c.gearType === CarGearType.Automatic ? 'Automatic' : 'Manual' }}
-                </div>
-              </div>
-            </div>
-
-            <div class="car-meta-item">
-              <i class="fa-solid fa-star car-meta-icon"></i>
-              <div>
-                <div class="car-meta-label">Condition</div>
-                <div class="car-meta-value">
-                  {{ c.condition === CarCondition.New ? 'New' : 'Used' }}
-                </div>
-              </div>
-            </div>
-
-            <div class="car-meta-item">
-              <i class="fa-solid fa-file-contract car-meta-icon"></i>
-              <div>
-                <div class="car-meta-label">Last Inspection</div>
-                <div class="car-meta-value">
-                  {{ c.lastInspectionDate | date:'mediumDate' }}
-                </div>
-              </div>
-            </div>
-            <div class="car-meta-item">
-              <i class="fa-solid fa-car-side car-meta-icon"></i>
-              <div>
-                <div class="car-meta-label">Body</div>
-                <div class="car-meta-value">{{ c.bodyTypeName }}</div>
-              </div>
-            </div>
-            @if (canEdit) {
-            <a class="btn-si" [routerLink]="['/car-manage', c.carId]">
-              Edit Car info
-            </a>
-            }
+            <span class="bg-gray-100 dark:bg-gray-700 border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 text-xs px-3 py-1 rounded-full font-semibold">
+              <i class="fa-solid fa-tag me-1"></i> For sale
+            </span>
           </div>
         </div>
+
+        <!-- Meta with icons -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-car-side text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Body</div>
+              <div class="font-semibold text-gray-900 dark:text-white">{{ c.bodyTypeName }}</div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-gas-pump text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Fuel</div>
+              <div class="font-semibold text-gray-900 dark:text-white">{{ c.fuelName }}</div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-regular fa-calendar text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Year</div>
+              <div class="font-semibold text-gray-900 dark:text-white">{{ c.year }}</div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-gauge-high text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Mileage</div>
+              <div class="font-semibold text-gray-900 dark:text-white">{{ c.mileage | number }} km</div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-gears text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Gear Type</div>
+              <div class="font-semibold text-gray-900 dark:text-white">
+                {{ c.gearType === CarGearType.Automatic ? 'Automatic' : 'Manual' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-star text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Condition</div>
+              <div class="font-semibold text-gray-900 dark:text-white">
+                {{ c.condition === CarCondition.New ? 'New' : 'Used' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-file-contract text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Last Inspection</div>
+              <div class="font-semibold text-gray-900 dark:text-white">
+                {{ c.lastInspectionDate | date:'mediumDate' }}
+              </div>
+            </div>
+          </div>
+        </div>
+        @if (canEdit) {
+        <div class="mt-4">
+          <a class="inline-block bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-lg" 
+             [routerLink]="['/car-manage', c.carId]">
+            <i class="fa-solid fa-edit mr-2"></i>
+            Edit Car info
+          </a>
+        </div>
+        }
       </div>
     </div>
 
-    <!-- Seller info column (1/3 width تقريبًا) -->
-    <div class="col-lg-4 col-md-5">
-      <div class="card border-0 shadow-sm rounded-4 seller-card">
-        <div class="card-header bg-white border-0 pb-0">
-          <h6 class="fw-bold mb-0 d-flex align-items-center">
-            <i class="fa-solid fa-user-tie me-2 text-primary"></i>
+    <!-- Seller info column (1/3 width) -->
+    <div class="lg:col-span-1">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+          <h6 class="font-bold flex items-center text-gray-900 dark:text-white">
+            <i class="fa-solid fa-user-tie me-2 text-blue-600 dark:text-blue-400"></i>
             Seller information
           </h6>
         </div>
-        <div class="card-body pt-3">
+        <div class="p-4">
           <!-- Seller main row -->
-          <div class="d-flex align-items-center mb-3">
-            <div class="seller-icon-circle me-2">
-              <i class="fa-solid fa-user"></i>
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center me-3">
+              <i class="fa-solid fa-user text-blue-600 dark:text-blue-400"></i>
             </div>
             <div>
-              <div class="seller-name fw-semibold">
+              <div class="font-semibold text-gray-900 dark:text-white">
                 {{ c.publisherName }}
               </div>
-              <div class="text-muted small">
+              <div class="text-gray-600 dark:text-gray-400 text-sm">
                 Private seller
               </div>
             </div>
           </div>
 
           <!-- Contact -->
-          <ul class="list-unstyled seller-contact mb-3">
+          <ul class="space-y-3 mb-4">
             @if (c.publisherPhone) {
             <li>
-              <a href="tel:{{ c.publisherPhone }}">
-                <i class="fa-solid fa-phone"></i>
-                {{ c.publisherPhone }}
+              <a href="tel:{{ c.publisherPhone }}" 
+                 class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <i class="fa-solid fa-phone me-2 text-blue-600 dark:text-blue-400"></i>
+                <span class="font-medium">{{ c.publisherPhone }}</span>
               </a>
             </li>
             }
 
             @if (c.publisherEmail) {
             <li>
-              <a [href]="'mailto:' + c.publisherEmail">
-                <i class="fa-solid fa-envelope"></i>
-                {{ c.publisherEmail }}
+              <a [href]="'mailto:' + c.publisherEmail" 
+                 class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <i class="fa-solid fa-envelope me-2 text-blue-600 dark:text-blue-400"></i>
+                <span class="font-medium break-all">{{ c.publisherEmail }}</span>
               </a>
             </li>
             }
 
             @if (c.locationName) {
-            <li>
-              <i class="fa-solid fa-location-dot"></i>
-              <span>{{ c.locationName }}</span>
+            <li class="flex items-center text-gray-700 dark:text-gray-300 p-2 rounded-lg">
+              <i class="fa-solid fa-location-dot me-2 text-blue-600 dark:text-blue-400"></i>
+              <span class="font-medium">{{ c.locationName }}</span>
             </li>
             }
           </ul>
 
-          <p class="text-muted small mb-0">
+          <p class="text-gray-600 dark:text-gray-400 text-sm bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
             You can contact the seller using the phone or email above.
           </p>
         </div>
       </div>
-
-
     </div>
   </div>
 
   <!-- Row 3: Description (full width) -->
-  <div class="row mt-4">
-    <div class="col-12">
-      <div class="card border-0 shadow-sm rounded-4 description-card">
-        <div class="card-body">
-          <h5 class="fw-bold mb-3">Description</h5>
-          <p class="mb-0">
-            {{ c.description || 'No description provided.' }}
-          </p>
-        </div>
-      </div>
+  <div class="mb-6">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 p-6 border border-gray-200 dark:border-gray-700">
+      <h5 class="font-bold text-lg mb-3 text-gray-900 dark:text-white flex items-center">
+        <i class="fa-solid fa-file-lines me-2 text-blue-600 dark:text-blue-400"></i>
+        Description
+      </h5>
+      <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+        {{ c.description || 'No description provided.' }}
+      </p>
     </div>
-  </div>
-  <div class="mt-3">
-    <a routerLink="/cars" class="btn-out btn-sm">
-      ← Back to cars list
-    </a>
   </div>
 </div>
 } @else {
-<div class="container py-5">
+<div class="container mx-auto py-8 px-4">
   @if (error()) {
-  <div class="alert alert-danger">
-    {{ error() }}
+  <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
+    <div class="flex items-center">
+      <i class="fa-solid fa-circle-exclamation mr-2"></i>
+      <span>{{ error() }}</span>
+    </div>
   </div>
   } @else {
-  <p class="text-muted">Car not found.</p>
+  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-8 text-center border border-gray-200 dark:border-gray-700">
+    <i class="fa-solid fa-car-side text-6xl text-gray-400 dark:text-gray-600 mb-4"></i>
+    <p class="text-gray-600 dark:text-gray-400 text-lg">Car not found.</p>
+  </div>
   }
 </div>
 }
 } @else {
-<div class="container py-5 text-center">
-  <div class="spinner-border text-primary" role="status"></div>
-  <p class="mt-2 text-muted">Loading car details...</p>
+<div class="container mx-auto py-8 px-4 text-center bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400"></div>
+  <p class="mt-4 text-gray-700 dark:text-gray-300 font-medium">Loading car details...</p>
 </div>
 }
+

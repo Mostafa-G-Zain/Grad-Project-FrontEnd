@@ -2,7 +2,8 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CarService } from '../../../../core/services/car.service';
-import { ICar } from '../../../../shared/models/car.model';
+import { ICar, CarCondition, CarGearType } from '../../../../shared/models/car.model';
+import { AuthService } from '../../../../core/services/auth.service';
 
 
 @Component({
@@ -15,12 +16,21 @@ import { ICar } from '../../../../shared/models/car.model';
 export class CarDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private carService = inject(CarService);
+  private auth = inject(AuthService);
 
   car = signal<ICar | null>(null);
   loading = signal<boolean>(true);
   error = signal<string | null>(null);
   selectedImageIndex = signal(0);
 
+  // Expose enums to template
+  CarCondition = CarCondition;
+  CarGearType = CarGearType;
+
+  get canEdit(): boolean {
+    const user = this.auth.currentUser();
+    return !!user && user.role === 'Vendor';
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

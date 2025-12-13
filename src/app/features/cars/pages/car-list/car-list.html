@@ -13,42 +13,29 @@
 
           <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
             <div class="mb-3">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="search"
-                placeholder="Search keyword..."
-              />
+              <input type="text" class="form-control" formControlName="search" placeholder="Search keyword..." />
             </div>
 
             <div class="mb-3">
               <label class="form-label small fw-bold">Brand</label>
-              <select
-                class="form-select"
-                formControlName="makeId"
-                (change)="onMakeChange()"
-              >
+              <select class="form-select" formControlName="makeId" (change)="onMakeChange()">
                 <option value="">All Brands</option>
                 @for (m of makes(); track m.makeId) {
-                  <option [value]="m.makeId">
-                    {{ m.makeName }}
-                  </option>
+                <option [value]="m.makeId">
+                  {{ m.makeName }}
+                </option>
                 }
               </select>
             </div>
 
             <div class="mb-3">
               <label class="form-label small fw-bold">Model</label>
-              <select
-                class="form-select"
-                formControlName="modelId"
-                [disabled]="models().length === 0"
-              >
+              <select class="form-select" formControlName="modelId" [disabled]="models().length === 0">
                 <option value="">All Models</option>
                 @for (mod of models(); track mod.modelId) {
-                  <option [value]="mod.modelId">
-                    {{ mod.modelName }}
-                  </option>
+                <option [value]="mod.modelId">
+                  {{ mod.modelName }}
+                </option>
                 }
               </select>
             </div>
@@ -58,9 +45,9 @@
               <select class="form-select" formControlName="fuelId">
                 <option value="">All Fuel Types</option>
                 @for (fuel of fuelTypes(); track fuel.fuelId) {
-                  <option [value]="fuel.fuelId">
-                    {{ fuel.name }}
-                  </option>
+                <option [value]="fuel.fuelId">
+                  {{ fuel.name }}
+                </option>
                 }
               </select>
             </div>
@@ -70,9 +57,9 @@
               <select class="form-select" formControlName="bodyTypeId">
                 <option value="">All Body Types</option>
                 @for (bodyType of bodyTypes(); track bodyType.bodyTypeId) {
-                  <option [value]="bodyType.bodyTypeId">
-                    {{ bodyType.name }}
-                  </option>
+                <option [value]="bodyType.bodyTypeId">
+                  {{ bodyType.name }}
+                </option>
                 }
               </select>
             </div>
@@ -82,28 +69,36 @@
               <select class="form-select" formControlName="locId">
                 <option value="">All Cities</option>
                 @for (loc of locations(); track loc.locId) {
-                  <option [value]="loc.locId">
-                    {{ loc.name }}
-                  </option>
+                <option [value]="loc.locId">
+                  {{ loc.name }}
+                </option>
                 }
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Condition</label>
+              <select class="form-select" formControlName="condition">
+                <option [ngValue]="null">All Conditions</option>
+                <option [value]="CarCondition.New">New</option>
+                <option [value]="CarCondition.Used">Used</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Gear Type</label>
+              <select class="form-select" formControlName="gearType">
+                <option [ngValue]="null">All Gear Types</option>
+                <option [value]="CarGearType.Manual">Manual</option>
+                <option [value]="CarGearType.Automatic">Automatic</option>
               </select>
             </div>
 
             <div class="mb-3">
               <label class="form-label small fw-bold">Price (EGP)</label>
               <div class="d-flex gap-2">
-                <input
-                  type="number"
-                  class="form-control"
-                  formControlName="minPrice"
-                  placeholder="Min"
-                />
-                <input
-                  type="number"
-                  class="form-control"
-                  formControlName="maxPrice"
-                  placeholder="Max"
-                />
+                <input type="number" class="form-control" formControlName="minPrice" placeholder="Min" />
+                <input type="number" class="form-control" formControlName="maxPrice" placeholder="Max" />
               </div>
             </div>
 
@@ -117,52 +112,52 @@
       <!-- Cars list -->
       <div class="col-lg-9 col-md-8">
         @if (loading()) {
-          <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2 text-muted">Loading cars...</p>
-          </div>
+        <div class="text-center py-5">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="mt-2 text-muted">Loading cars...</p>
+        </div>
         } @else {
-          <div class="row g-4">
-            @if (cars().length === 0) {
-              <div class="text-center py-5">
-                <h4>No cars found</h4>
-                <p class="text-muted">Try adjusting your filters</p>
-              </div>
-            } @else {
-              @for (car of cars(); track car.carId) {
-                <div class="col-md-6 col-xl-4">
-                  <div class="card h-100 border-0 shadow-sm rounded-4 car-card-hover">
-                    <img
-                      [src]="car.imageUrls[0] ? 'https://carnest.runasp.net/' + car.imageUrls[0] : 'assets/placeholder.jpg'"
-                      class="card-img-top"
-                      alt="Car"
-                      style="height: 200px; object-fit: cover;"
-                    />
-
-                    <div class="card-body">
-                      <h5 class="card-title fw-bold">
-                        {{ car.year }} {{ car.makeName }} {{ car.modelName }}
-                      </h5>
-                      <p class="card-text text-muted mb-2">
-                        {{ car.year }} • {{ car.locationName }}
-                      </p>
-                      <h6 class="text-primary fw-bold mb-3">
-                        {{ car.price | currency:'EGP ' }}
-                      </h6>
-                      <button
-                        class="btn btn-outline-primary w-100 rounded-pill"
-                        [routerLink]="['/cars', car.carId]"
-                      >
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              }
-            }
+        <div class="row g-4">
+          @if (cars().length === 0) {
+          <div class="text-center py-5">
+            <h4>No cars found</h4>
+            <p class="text-muted">Try adjusting your filters</p>
           </div>
+          } @else {
+          @for (car of cars(); track car.carId) {
+          <div class="col-md-6 col-xl-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 car-card-hover">
+              <img
+                [src]="car.imageUrls[0] ? 'https://carnest.runasp.net/' + car.imageUrls[0] : 'assets/placeholder.jpg'"
+                class="card-img-top" alt="Car" style="height: 200px; object-fit: cover;" />
+
+              <div class="card-body">
+                <h5 class="card-title fw-bold">
+                  {{ car.year }} {{ car.makeName }} {{ car.modelName }}
+                </h5>
+                <p class="card-text text-muted mb-2 small">
+                  <i class="fa-solid fa-gauge-high me-1"></i> {{ car.mileage | number }} km
+                  <span class="mx-1">•</span>
+                  <i class="fa-solid fa-gears me-1"></i> {{ car.gearType === CarGearType.Automatic ? 'Auto' : 'Manual'
+                  }}
+                </p>
+                <p class="card-text text-muted mb-2">
+                  {{ car.year }} • {{ car.locationName }}
+                </p>
+                <h6 class="text-primary fw-bold mb-3">
+                  {{ car.price | currency:'EGP ' }}
+                </h6>
+                <button class="btn btn-outline-primary w-100 rounded-pill" [routerLink]="['/cars', car.carId]">
+                  View Details
+                </button>
+              </div>
+            </div>
+          </div>
+          }
+          }
+        </div>
         }
-        
+
       </div>
       <div class="col-lg-9 col-md-8">
         <div class="pagination">

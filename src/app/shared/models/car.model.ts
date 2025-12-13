@@ -11,6 +11,17 @@ export interface IBodyType { bodyTypeId: number; name: string; }
 export interface IFuelType { fuelId: number; name: string; }
 export interface ILocation { locId: number; name: string; }
 
+
+export enum CarCondition {
+  New = 0,
+  Used = 1
+}
+
+export enum CarGearType {
+  Manual = 0,
+  Automatic = 1
+}
+
 export interface ICar {
   carId: string;
   year: number;
@@ -18,6 +29,12 @@ export interface ICar {
   description: string;
   createdDate: string;
   imageUrls: string[];
+
+  // New fields
+  condition: CarCondition;
+  mileage: number;
+  lastInspectionDate: string; // ISO string
+  gearType: CarGearType;
 
   makeId: number;
   makeName: string;
@@ -48,6 +65,10 @@ export interface CarFilter {
   bodyTypeId?: number;
   fuelId?: number;
   locId?: number;
+
+  // New filters
+  condition?: CarCondition;
+  gearType?: CarGearType;
 
   makeName?: string;
   modelName?: string;

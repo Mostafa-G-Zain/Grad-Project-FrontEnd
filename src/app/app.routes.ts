@@ -6,6 +6,8 @@ import { LoginComponent } from './features/auth/pages/login/login';
 import { authGuard } from './core/guards/auth-guard';
 import { RegisterCustomerComponent } from './features/auth/pages/register-customer/register-customer';
 import { RegisterVendorComponent } from './features/auth/pages/register-vendor/register-vendor';
+import { CarManageComponent } from './features/cars/pages/car-manage/car-manage';
+import { roleGuard } from './core/guards/role-guard';
 
 export const routes: Routes = [
     {
@@ -43,6 +45,25 @@ export const routes: Routes = [
     {
         path: 'register-vendor',
         component: RegisterVendorComponent
+    },
+
+    {
+        path: 'car-manage',
+        component: CarManageComponent,
+        canActivate: [authGuard, roleGuard],
+        data: { role: ['Vendor'] }
+    },
+    {
+        path: 'car-manage/add',
+        component: CarManageComponent,
+        canActivate: [authGuard, roleGuard],
+        data: { role: ['Vendor'] }
+    },
+    {
+        path: 'car-manage/:id',
+        component: CarManageComponent,
+        canActivate: [authGuard, roleGuard],
+        data: { role: ['Vendor'] }
     },
 
     {

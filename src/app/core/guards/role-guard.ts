@@ -2,25 +2,37 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-export const roleGuardGuard: CanActivateFn = (route, state) => {
+export const roleGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const user = authService.currentUser();
+  const expectedRole = route.data['role'] as Array<string> | undefined;
 
-  // check if user is logged in
-  if(!user || !authService.token){
-    router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
-    return false;
+  if (!user || !authService.token) {
+    if (expectedRole?.includes('Vendor')) {
+      return router.createUrlTree(
+        ['/register-vendor'],
+        { queryParams: { returnUrl: state.url } }
+      );
+    }
+
+    return router.createUrlTree(['/login'], {
+      queryParams: { returnUrl: state.url }
+    });
   }
 
-  // check if user has the expected role
-  const expectedRole = route.data['role'] as Array<string>;
+  if (expectedRole && !expectedRole.includes(user.role)) {
+    if (expectedRole.includes('Vendor')) {
+      alert('You must register as a vendor to sell cars.');
+      return router.createUrlTree(
+        ['/register-vendor'],
+        { queryParams: { returnUrl: state.url } }
+      );
+    }
 
-  if (expectedRole && expectedRole.includes(user.role)){
-    return true;
+    alert('You are not authorized to access this page');
+    return router.createUrlTree(['/']);
   }
 
-  alert('You are not authorized to access this page');
-  router.navigate(['/']);
-  return false;
+  return true;
 };

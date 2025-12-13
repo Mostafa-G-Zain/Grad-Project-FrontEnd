@@ -9,7 +9,9 @@ import {
   IModel,
   IBodyType,
   IFuelType,
-  ILocation
+  ILocation,
+  CarCondition,
+  CarGearType
 } from '../../../../shared/models/car.model';
 
 @Component({
@@ -23,6 +25,10 @@ export class CarListComponent implements OnInit {
   private carService = inject(CarService);
   private fb = inject(FormBuilder);
 
+  // Expose enums
+  CarCondition = CarCondition;
+  CarGearType = CarGearType;
+
   // --- Signals ---
   cars = signal<ICar[]>([]);
   makes = signal<IMake[]>([]);
@@ -35,7 +41,7 @@ export class CarListComponent implements OnInit {
 
   // pagination state
   pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+  pageSize = signal<number>(9);
   totalPages = signal<number>(1);
   totalRecords = signal<number>(0);
 
@@ -49,15 +55,17 @@ export class CarListComponent implements OnInit {
     locId: [''],
     minPrice: [''],
     maxPrice: [''],
-    year: ['']
+    year: [''],
+    condition: [null],
+    gearType: [null]
   });
 
   ngOnInit() {
-    this.loadLookups();
+    this.loadLookup();
     this.loadPage(1);
   }
 
-  loadLookups() {
+  loadLookup() {
     this.carService.getMakes().subscribe(res => this.makes.set(res));
     this.carService.getBodyTypes().subscribe(res => this.bodyTypes.set(res));
     this.carService.getFuelTypes().subscribe(res => this.fuelTypes.set(res));
@@ -80,6 +88,9 @@ export class CarListComponent implements OnInit {
     if (filters.minPrice) filters.minPrice = Number(filters.minPrice);
     if (filters.maxPrice) filters.maxPrice = Number(filters.maxPrice);
     if (filters.year) filters.year = Number(filters.year);
+
+    if (filters.condition !== null && filters.condition !== '') filters.condition = Number(filters.condition);
+    if (filters.gearType !== null && filters.gearType !== '') filters.gearType = Number(filters.gearType);
 
     this.carService.getCars(filters, page, this.pageSize()).subscribe({
       next: res => {
@@ -120,7 +131,7 @@ export class CarListComponent implements OnInit {
     this.models.set([]);
     this.applyFilters();
   }
-  
+
   canGoPrevious(): boolean {
     return this.pageNumber() > 1;
   }

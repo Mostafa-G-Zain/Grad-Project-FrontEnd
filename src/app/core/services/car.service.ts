@@ -28,6 +28,10 @@ export class CarService {
     if (filters.maxPrice) params = params.set('maxPrice', filters.maxPrice);
     if (filters.year) params = params.set('year', filters.year);
 
+    // New filters
+    if (filters.condition !== undefined && filters.condition !== null) params = params.set('condition', filters.condition);
+    if (filters.gearType !== undefined && filters.gearType !== null) params = params.set('gearType', filters.gearType);
+
     return this.http.get<IPagedResponse<ICar>>(`${this.baseUrl}/Car`, { params });
 
 
@@ -36,6 +40,9 @@ export class CarService {
     return this.http.get<ICar>(`${this.baseUrl}/Car/${id}`);
   }
 
+  getVendorCars(): Observable<ICar[]> {
+    return this.http.get<ICar[]>(`${this.baseUrl}/Car/vendor/cars`);
+  }
 
   getMakes(): Observable<IMake[]> {
     return this.http.get<IMake[]>(`${this.baseUrl}/Make`);
@@ -60,16 +67,16 @@ export class CarService {
   }
 
   // admin and vendor CRUD
-  createCar(car: Partial<ICar>): Observable<ICar> {
-    return this.http.post<ICar>(`${this.apiUrl}/cars`, car);
+  createCar(car: FormData): Observable<ICar> {
+    return this.http.post<ICar>(`${this.baseUrl}/Car`, car);
   }
 
-  updateCar(id: string, car: Partial<ICar>): Observable<ICar> {
-    return this.http.put<ICar>(`${this.apiUrl}/cars/${id}`, car);
+  updateCar(id: string, car: FormData): Observable<ICar> {
+    return this.http.put<ICar>(`${this.baseUrl}/Car/${id}`, car);
   }
 
   deleteCar(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/cars/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/Car/${id}`);
   }
 
   uploadCarImage(carId: string, files: File[]): Observable<any> {
@@ -77,6 +84,6 @@ export class CarService {
     files.forEach(file => {
       formData.append('files', file);
     });
-    return this.http.post(`${this.apiUrl}/cars/${carId}/images`, formData);
+    return this.http.post(`${this.baseUrl}/Car/${carId}/images`, formData);
   }
 }

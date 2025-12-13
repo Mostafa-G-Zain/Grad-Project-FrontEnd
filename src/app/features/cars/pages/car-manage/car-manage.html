@@ -1,0 +1,134 @@
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4">
+                    <h3 class="mb-3">
+                        {{ isEditMode ? 'Edit Car' : 'Sell a Car' }}
+                    </h3>
+
+                    <form [formGroup]="carForm" (ngSubmit)="onSubmit()">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Year</label>
+                                <input type="number" class="form-control" formControlName="Year" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Price</label>
+                                <input type="number" class="form-control" formControlName="Price" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Mileage (km)</label>
+                                <input type="number" class="form-control" formControlName="Mileage" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Inspection Date</label>
+                                <input type="date" class="form-control" formControlName="LastInspectionDate" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Condition</label>
+                                <select class="form-select" formControlName="Condition">
+                                    <option [ngValue]="null">Select Condition</option>
+                                    <option [value]="CarCondition.New">New</option>
+                                    <option [value]="CarCondition.Used">Used</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Gear Type</label>
+                                <select class="form-select" formControlName="GearType">
+                                    <option [ngValue]="null">Select Gear</option>
+                                    <option [value]="CarGearType.Manual">Manual</option>
+                                    <option [value]="CarGearType.Automatic">Automatic</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Make</label>
+                                <select class="form-select" formControlName="MakeId" (change)="onMakeChange()">
+                                    <option [ngValue]="null">Select make</option>
+                                    @for (m of makes(); track m.makeId) {
+                                    <option [value]="m.makeId">{{ m.makeName }}</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Model</label>
+                                <select class="form-select" formControlName="ModelId">
+                                    <option [ngValue]="null">Select model</option>
+                                    @for (mod of models(); track mod.modelId) {
+                                    <option [value]="mod.modelId">{{ mod.modelName }}</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Body Type</label>
+                                <select class="form-select" formControlName="BodyTypeId">
+                                    <option [ngValue]="null">Select body type</option>
+                                    @for (b of bodyTypes(); track b.bodyTypeId) {
+                                    <option [value]="b.bodyTypeId">{{ b.name }}</option>
+                                    }
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <label class="form-label">Fuel</label>
+                                <select class="form-select" formControlName="FuelId">
+                                    <option [ngValue]="null">Select fuel</option>
+                                    @for (f of fuelTypes(); track f.fuelId) {
+                                    <option [value]="f.fuelId">{{ f.name }}</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Location</label>
+                                <select class="form-select" formControlName="LocId">
+                                    <option [ngValue]="null">Select location</option>
+                                    @for (l of locations(); track l.locId) {
+                                    <option [value]="l.locId">{{ l.name }}</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" rows="3" formControlName="Description"></textarea>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Images</label>
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                    @for (f of uploadedFiles; track $index; let i = $index) {
+                                    <div class="position-relative">
+                                        <img *ngIf="getFileType(f.name) === 'image'" [src]="f.previewUrl"
+                                            class="img-thumbnail"
+                                            style="width: 90px; height: 90px; object-fit: cover;" />
+                                        <button type="button" class="btn-close position-absolute top-0 end-0"
+                                            (click)="removeFile(i)"></button>
+                                    </div>
+                                    }
+                                </div>
+
+                                <input type="file" (change)="onFileSelected($event)" />
+                            </div>
+
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <button type="submit" class="btn btn-primary" [disabled]="isLoading || carForm.invalid">
+                                {{ isEditMode ? 'Update' : 'Create' }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

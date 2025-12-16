@@ -3,21 +3,21 @@
 <div class="container mx-auto py-8 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
   <!-- Back to cars list -->
   <div class="mb-4 mt-4">
-    <a routerLink="/cars" 
-       class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+    <a routerLink="/cars"
+      class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
       <i class="fa-solid fa-arrow-left mr-2"></i>
       Back to cars list
     </a>
   </div>
-  
+
   <!-- Row 1: Images (full width) -->
   <div class="mb-6">
     <div class="relative max-w-4xl mx-auto">
       @if (c.imageUrls.length) {
       <!-- Previous -->
-      <button type="button" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-3 shadow-lg disabled:opacity-50 z-10 border border-gray-200 dark:border-gray-700 transition-colors" 
-              (click)="prevImage()" 
-              [disabled]="c.imageUrls.length <= 1">
+      <button type="button"
+        class="absolute left-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-3 shadow-lg disabled:opacity-50 z-10 border border-gray-200 dark:border-gray-700 transition-colors"
+        (click)="prevImage()" [disabled]="c.imageUrls.length <= 1">
         <i class="fa-solid fa-chevron-left text-gray-800 dark:text-white"></i>
       </button>
 
@@ -25,37 +25,32 @@
       <div class="relative mt-8">
         @for (img of c.imageUrls; track $index; let i = $index) {
         @if (i === selectedImageIndex()) {
-        <img [src]="'https://carnest.runasp.net/' + img" 
-             class="w-full max-w-4xl mx-auto h-96 md:h-[32rem] object-contain rounded-3xl shadow-xl"
-             alt="Car image" />
+        <img [src]="'https://carnest.runasp.net/' + img"
+          class="w-full max-w-4xl mx-auto h-96 md:h-[32rem] object-contain rounded-3xl shadow-xl" alt="Car image" />
         }
         }
       </div>
 
       <!-- Next -->
-      <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-3 shadow-lg disabled:opacity-50 z-10 border border-gray-200 dark:border-gray-700 transition-colors" 
-              (click)="nextImage()" 
-              [disabled]="c.imageUrls.length <= 1">
+      <button type="button"
+        class="absolute right-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-3 shadow-lg disabled:opacity-50 z-10 border border-gray-200 dark:border-gray-700 transition-colors"
+        (click)="nextImage()" [disabled]="c.imageUrls.length <= 1">
         <i class="fa-solid fa-chevron-right text-gray-800 dark:text-white"></i>
       </button>
 
       <!-- Indicators -->
       <div class="flex justify-center gap-2 mt-4">
         @for (img of c.imageUrls; track $index; let i = $index) {
-        <button type="button" 
-                class="w-3 h-3 rounded-full transition-all" 
-                [ngClass]="{
+        <button type="button" class="w-3 h-3 rounded-full transition-all" [ngClass]="{
                   'bg-blue-600 dark:bg-blue-400': i === selectedImageIndex(),
                   'bg-gray-300 dark:bg-gray-600': i !== selectedImageIndex()
-                }"
-                (click)="setImage(i)"></button>
+                }" (click)="setImage(i)"></button>
         }
       </div>
       } @else {
       <div class="mt-8">
-        <img src="assets/placeholder.jpg" 
-             class="w-full max-w-4xl mx-auto h-96 md:h-[32rem] object-contain rounded-3xl shadow-xl" 
-             alt="Car image" />
+        <img src="assets/placeholder.jpg"
+          class="w-full max-w-4xl mx-auto h-96 md:h-[32rem] object-contain rounded-3xl shadow-xl" alt="Car image" />
       </div>
       }
     </div>
@@ -64,14 +59,12 @@
     @if (c.imageUrls.length) {
     <div class="flex flex-wrap justify-center gap-3 mt-6 max-w-4xl mx-auto">
       @for (img of c.imageUrls; track $index; let i = $index) {
-      <img [src]="'https://carnest.runasp.net/' + img" 
-           class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-xl cursor-pointer border-2 transition-all hover:scale-105"
-           [ngClass]="{
+      <img [src]="'https://carnest.runasp.net/' + img"
+        class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-xl cursor-pointer border-2 transition-all hover:scale-105"
+        [ngClass]="{
              'border-blue-600 dark:border-blue-400': i === selectedImageIndex(),
              'border-gray-300 dark:border-gray-600': i !== selectedImageIndex()
-           }"
-           (click)="setImage(i)" 
-           alt="Car thumbnail" />
+           }" (click)="setImage(i)" alt="Car thumbnail" />
       }
     </div>
     }
@@ -81,7 +74,8 @@
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
     <!-- Car info column (2/3 width) -->
     <div class="lg:col-span-2">
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 p-6 mb-4 border border-gray-200 dark:border-gray-700">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 p-6 mb-4 border border-gray-200 dark:border-gray-700">
         <!-- Title + price + meta -->
         <div class="flex justify-between items-start flex-wrap gap-4 mb-4">
           <div>
@@ -106,7 +100,8 @@
             <div class="text-blue-600 dark:text-blue-400 font-bold text-2xl md:text-3xl mb-1">
               {{ c.price | currency: 'EGP ' }}
             </div>
-            <span class="bg-gray-100 dark:bg-gray-700 border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 text-xs px-3 py-1 rounded-full font-semibold">
+            <span
+              class="bg-gray-100 dark:bg-gray-700 border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 text-xs px-3 py-1 rounded-full font-semibold">
               <i class="fa-solid fa-tag me-1"></i> For sale
             </span>
           </div>
@@ -139,7 +134,30 @@
           </div>
 
           <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-            <i class="fa-solid fa-gauge-high text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <i class=" text-blue-600 dark:text-blue-400 text-xl mb-[px]"><svg xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" viewBox="0 0 24 24">
+                <mask id="SVG1AqIOMBq">
+                  <path fill="none" stroke="#fff" stroke-dasharray="48" stroke-dashoffset="48" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="2"
+                    d="M5.64 19.36c-3.52 -3.51 -3.52 -9.21 0 -12.72c3.51 -3.52 9.21 -3.52 12.72 -0c3.52 3.51 3.52 9.21 0 12.72">
+                    <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="48;0" />
+                  </path>
+                  <g transform="rotate(-100 12 13)">
+                    <path d="M12 14C12 14 12 14 12 14C12 14 12 14 12 14C12 14 12 14 12 14C12 14 12 14 12 14Z">
+                      <animate fill="freeze" attributeName="d" begin="0.4s" dur="0.2s"
+                        values="M12 14C12 14 12 14 12 14C12 14 12 14 12 14C12 14 12 14 12 14C12 14 12 14 12 14Z;M17 13C17 15.7614 14.7614 18 12 18C9.23858 18 7 15.7614 7 13C7 10.2386 12 -2 12 -2C12 -2 17 10.2386 17 13Z" />
+                    </path>
+                    <path fill="#fff"
+                      d="M12 14C12 14 12 14 12 14C12 14 12 14 12 14C12 14 12 14 12 14C12 14 12 14 12 14Z">
+                      <animate fill="freeze" attributeName="d" begin="0.4s" dur="0.2s"
+                        values="M12 14C12 14 12 14 12 14C12 14 12 14 12 14C12 14 12 14 12 14C12 14 12 14 12 14Z;M15 13C15 14.6568 13.6569 16 12 16C10.3431 16 9 14.6568 9 13C9 11.3431 12 2 12 2C12 2 15 11.3431 15 13Z" />
+                    </path>
+                    <animateTransform fill="freeze" attributeName="transform" begin="0.4s" dur="0.3s" type="rotate"
+                      values="-100 12 13;65 12 13" />
+                  </g>
+                </mask>
+                <rect width="24" height="24" fill="currentColor" mask="url(#SVG1AqIOMBq)" />
+              </svg></i>
             <div>
               <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Mileage</div>
               <div class="font-semibold text-gray-900 dark:text-white">{{ c.mileage | number }} km</div>
@@ -175,14 +193,111 @@
               </div>
             </div>
           </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-road text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Drivetrain</div>
+              <div class="font-semibold text-gray-900 dark:text-white">
+                @switch (c.drivetrainType) {
+                @case (DrivetrainType.FWD) { FWD }
+                @case (DrivetrainType.RWD) { RWD }
+                @case (DrivetrainType.AWD) { AWD }
+                @case (DrivetrainType.FourWD) { 4WD }
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="text-blue-600 dark:text-blue-400 text-xl mb-[px]"><svg xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path fill="currentColor" fill-opacity="0" stroke-dasharray="48" stroke-dashoffset="48"
+                    d="M11 9h6v10h-6.5l-2 -2h-2.5v-6.5l1.5 -1.5Z">
+                    <animate fill="freeze" attributeName="fill-opacity" begin="1.3s" dur="0.5s" values="0;1" />
+                    <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="48;0" />
+                  </path>
+                  <path fill="currentColor" fill-opacity="0" d="M17 13h0v-3h0v8h0v-3h0z" opacity="0">
+                    <animate fill="freeze" attributeName="d" begin="0.6s" dur="0.2s"
+                      values="M17 13h0v-3h0v8h0v-3h0z;M17 13h4v-3h1v8h-1v-3h-4z" />
+                    <set fill="freeze" attributeName="fill-opacity" begin="0.8s" to="1" />
+                    <set fill="freeze" attributeName="opacity" begin="0.6s" to="1" />
+                  </path>
+                  <path d="M6 14h0M6 11v6" opacity="0">
+                    <animate fill="freeze" attributeName="d" begin="0.8s" dur="0.2s"
+                      values="M6 14h0M6 11v6;M6 14h-4M2 11v6" />
+                    <set fill="freeze" attributeName="opacity" begin="0.8s" to="1" />
+                  </path>
+                  <path d="M11 9v0M8 9h6" opacity="0">
+                    <animate fill="freeze" attributeName="d" begin="1s" dur="0.2s"
+                      values="M11 9v0M8 9h6;M11 9v-4M8 5h6" />
+                    <set fill="freeze" attributeName="opacity" begin="1s" to="1" />
+                  </path>
+                </g>
+              </svg></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Engine</div>
+              <div class="font-semibold text-gray-900 dark:text-white">{{ c.engineCapacity | number }} cc</div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="text-blue-600 dark:text-blue-400 text-xl mb-[px]"><svg xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-car-turbine">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M11 13m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                <path d="M18.86 11c.088 .66 .14 1.512 .14 2a8 8 0 1 1 -8 -8h6" />
+                <path d="M11 9c2.489 .108 4.489 .108 6 0" />
+                <path d="M17 3m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
+                <path d="M11 13l-3.5 -1.5" />
+                <path d="M11 13l2.5 3" />
+                <path d="M8.5 16l2.5 -3" />
+                <path d="M11 13l3.5 -1.5" />
+                <path d="M11 9v4" />
+              </svg></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Horsepower</div>
+              <div class="font-semibold text-gray-900 dark:text-white">{{ c.horsepower }} HP</div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-palette text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Exterior Color</div>
+              <div class="font-semibold text-gray-900 dark:text-white">{{ c.exteriorColor || 'N/A' }}</div>
+            </div>
+          </div>
+
+          <div class="flex items-end gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <i class="fa-solid fa-couch text-blue-600 dark:text-blue-400 text-xl mb-[-5px]"></i>
+            <div>
+              <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">Interior Color</div>
+              <div class="font-semibold text-gray-900 dark:text-white">{{ c.internalColor || 'N/A' }}</div>
+            </div>
+          </div>
         </div>
         @if (canEdit) {
-        <div class="mt-4">
-          <a class="inline-block bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-lg" 
-             [routerLink]="['/car-manage', c.carId]">
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a class="inline-block bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-lg"
+            [routerLink]="['/car-manage', c.carId]">
             <i class="fa-solid fa-edit mr-2"></i>
             Edit Car info
           </a>
+          <button type="button" (click)="deleteCar(c.carId)"
+            class="inline-block bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-lg"
+            [disabled]="deleting()">
+            @if (deleting()) {
+            <i class="fa-solid fa-spinner fa-spin mr-2"></i>
+            Deleting...
+            } @else {
+            <i class="fa-solid fa-trash mr-2"></i>
+            Delete Car
+            }
+          </button>
         </div>
         }
       </div>
@@ -190,7 +305,8 @@
 
     <!-- Seller info column (1/3 width) -->
     <div class="lg:col-span-1">
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700">
         <div class="p-4 border-b border-gray-200 dark:border-gray-700">
           <h6 class="font-bold flex items-center text-gray-900 dark:text-white">
             <i class="fa-solid fa-user-tie me-2 text-blue-600 dark:text-blue-400"></i>
@@ -217,8 +333,8 @@
           <ul class="space-y-3 mb-4">
             @if (c.publisherPhone) {
             <li>
-              <a href="tel:{{ c.publisherPhone }}" 
-                 class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+              <a href="tel:{{ c.publisherPhone }}"
+                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
                 <i class="fa-solid fa-phone me-2 text-blue-600 dark:text-blue-400"></i>
                 <span class="font-medium">{{ c.publisherPhone }}</span>
               </a>
@@ -227,8 +343,8 @@
 
             @if (c.publisherEmail) {
             <li>
-              <a [href]="'mailto:' + c.publisherEmail" 
-                 class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+              <a [href]="'mailto:' + c.publisherEmail"
+                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
                 <i class="fa-solid fa-envelope me-2 text-blue-600 dark:text-blue-400"></i>
                 <span class="font-medium break-all">{{ c.publisherEmail }}</span>
               </a>
@@ -253,7 +369,8 @@
 
   <!-- Row 3: Description (full width) -->
   <div class="mb-6">
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 p-6 border border-gray-200 dark:border-gray-700">
+    <div
+      class="bg-white dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-gray-900/50 p-6 border border-gray-200 dark:border-gray-700">
       <h5 class="font-bold text-lg mb-3 text-gray-900 dark:text-white flex items-center">
         <i class="fa-solid fa-file-lines me-2 text-blue-600 dark:text-blue-400"></i>
         Description
@@ -267,14 +384,16 @@
 } @else {
 <div class="container mx-auto py-8 px-4">
   @if (error()) {
-  <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
+  <div
+    class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
     <div class="flex items-center">
       <i class="fa-solid fa-circle-exclamation mr-2"></i>
       <span>{{ error() }}</span>
     </div>
   </div>
   } @else {
-  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-8 text-center border border-gray-200 dark:border-gray-700">
+  <div
+    class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-8 text-center border border-gray-200 dark:border-gray-700">
     <i class="fa-solid fa-car-side text-6xl text-gray-400 dark:text-gray-600 mb-4"></i>
     <p class="text-gray-600 dark:text-gray-400 text-lg">Car not found.</p>
   </div>
@@ -287,4 +406,3 @@
   <p class="mt-4 text-gray-700 dark:text-gray-300 font-medium">Loading car details...</p>
 </div>
 }
-

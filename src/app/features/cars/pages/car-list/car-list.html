@@ -22,11 +22,6 @@
           </div>
 
           <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="space-y-4">
-            <div>
-              <input type="text"
-                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                formControlName="search" placeholder="Search keyword..." />
-            </div>
 
             <div>
               <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Brand</label>
@@ -54,6 +49,13 @@
                 </option>
                 }
               </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1">Color</label>
+              <input type="text"
+                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                formControlName="exteriorColor" placeholder="e.g. White, Black..." />
             </div>
 
             <div>
@@ -115,9 +117,39 @@
                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 formControlName="gearType">
                 <option [ngValue]="null">All Gear Types</option>
-                <option [value]="CarGearType.Manual">Manual</option>
-                <option [value]="CarGearType.Automatic">Automatic</option>
+                <option [ngValue]="CarGearType.Manual">Manual</option>
+                <option [ngValue]="CarGearType.Automatic">Automatic</option>
               </select>
+            </div>
+
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">Mileage (km)</label>
+              <div class="mb-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                    {{ getMinMileage() | number:'1.0-0' }} km
+                  </span>
+                  <span class="text-gray-400 dark:text-gray-500 mx-2">-</span>
+                  <span class="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                    {{ getMaxMileage() | number:'1.0-0' }} km
+                  </span>
+                </div>
+              </div>
+              <!-- Dual Range Slider for Mileage -->
+              <div class="relative h-8 flex items-center">
+                <input type="range" [min]="mileageRange().min" [max]="mileageRange().max" [value]="getMinMileage()"
+                  (input)="onMinMileageChange($event)"
+                  class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer z-30 dual-slider dual-slider-min" />
+                <input type="range" [min]="mileageRange().min" [max]="mileageRange().max" [value]="getMaxMileage()"
+                  (input)="onMaxMileageChange($event)"
+                  class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer z-20 dual-slider dual-slider-max" />
+                <div class="absolute w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg z-0"></div>
+                <div class="absolute h-2 bg-blue-600 dark:bg-blue-500 rounded-lg z-0"
+                  [style.left.%]="((getMinMileage() - mileageRange().min) / (mileageRange().max - mileageRange().min)) * 100"
+                  [style.width.%]="((getMaxMileage() - getMinMileage()) / (mileageRange().max - mileageRange().min)) * 100">
+                </div>
+              </div>
             </div>
 
             <div>
@@ -149,6 +181,8 @@
               </div>
             </div>
 
+
+
             <button type="submit"
               class="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-lg">
               <i class="fa-solid fa-magnifying-glass mr-2"></i>
@@ -160,6 +194,21 @@
 
       <!-- Cars list -->
       <div class="lg:col-span-3">
+        <!-- Search Bar -->
+        <div class="mb-6">
+          <div class="relative">
+            <input type="text"
+              class="w-full px-5 py-3 pl-12 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 shadow-md text-lg"
+              [formControl]="filterForm.controls.search" placeholder="Search cars by keyword..."
+              (keyup.enter)="applyFilters()" />
+            <i
+              class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 text-lg"></i>
+            <button type="button" (click)="applyFilters()"
+              class="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+              Search
+            </button>
+          </div>
+        </div>
         @if (loading()) {
         <div class="text-center py-12">
           <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400">

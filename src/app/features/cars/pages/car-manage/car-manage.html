@@ -48,6 +48,7 @@
                         </select>
                     </div>
 
+
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gear Type</label>
                         <select
@@ -57,6 +58,52 @@
                             <option [ngValue]="CarGearType.Manual">Manual</option>
                             <option [ngValue]="CarGearType.Automatic">Automatic</option>
                         </select>
+                    </div>
+
+                    <div>
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Drivetrain</label>
+                        <select
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            formControlName="DrivetrainType">
+                            <option [ngValue]="null">Select Drivetrain</option>
+                            <option [ngValue]="DrivetrainType.FWD">FWD (Front Wheel Drive)</option>
+                            <option [ngValue]="DrivetrainType.RWD">RWD (Rear Wheel Drive)</option>
+                            <option [ngValue]="DrivetrainType.AWD">AWD (All Wheel Drive)</option>
+                            <option [ngValue]="DrivetrainType.FourWD">4WD (Four Wheel Drive)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Engine Capacity
+                            (cc)</label>
+                        <input type="number"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400"
+                            formControlName="EngineCapacity" placeholder="e.g. 2000" />
+                    </div>
+
+                    <div>
+                        <label
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Horsepower</label>
+                        <input type="number"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400"
+                            formControlName="Horsepower" placeholder="e.g. 150" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Exterior
+                            Color</label>
+                        <input type="text"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400"
+                            formControlName="ExteriorColor" placeholder="e.g. White" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Interior
+                            Color</label>
+                        <input type="text"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400"
+                            formControlName="InternalColor" placeholder="e.g. Black" />
                     </div>
 
                     <div>

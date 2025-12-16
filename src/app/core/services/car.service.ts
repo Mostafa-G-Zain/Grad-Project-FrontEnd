@@ -16,6 +16,9 @@ export class CarService {
       .set('pageNumber', pageNumber)
       .set('pageSize', pageSize);
 
+    // Search keyword
+    if (filters.search) params = params.set('SearchTerm', filters.search);
+
     // Dropdowns for Ids
     if (filters.makeId) params = params.set('makeId', filters.makeId);
     if (filters.modelId) params = params.set('modelId', filters.modelId);
@@ -30,7 +33,14 @@ export class CarService {
 
     // New filters
     if (filters.condition !== undefined && filters.condition !== null) params = params.set('condition', filters.condition);
-    if (filters.gearType !== undefined && filters.gearType !== null) params = params.set('gearType', filters.gearType);
+    if (typeof filters.gearType === 'number') params = params.set('GearType', filters.gearType);
+
+    // Mileage range filters
+    if (filters.minMileage) params = params.set('minMileage', filters.minMileage);
+    if (filters.maxMileage) params = params.set('maxMileage', filters.maxMileage);
+
+    // Color filter
+    if (filters.exteriorColor) params = params.set('exteriorColor', filters.exteriorColor);
 
     return this.http.get<IPagedResponse<ICar>>(`${this.baseUrl}/Car`, { params });
 

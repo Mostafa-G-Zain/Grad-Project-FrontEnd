@@ -1,8 +1,8 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe, NgClass } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CarService } from '../../../../core/services/car.service';
-import { ICar, CarCondition, CarGearType } from '../../../../shared/models/car.model';
+import { ICar, CarCondition, CarGearType, DrivetrainType } from '../../../../shared/models/car.model';
 import { AuthService } from '../../../../core/services/auth.service';
 
 
@@ -15,17 +15,20 @@ import { AuthService } from '../../../../core/services/auth.service';
 })
 export class CarDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private carService = inject(CarService);
   private auth = inject(AuthService);
 
   car = signal<ICar | null>(null);
   loading = signal<boolean>(true);
+  deleting = signal<boolean>(false);
   error = signal<string | null>(null);
   selectedImageIndex = signal(0);
 
   // Expose enums to template
   CarCondition = CarCondition;
   CarGearType = CarGearType;
+  DrivetrainType = DrivetrainType;
 
   get canEdit(): boolean {
     const user = this.auth.currentUser();
@@ -93,6 +96,25 @@ export class CarDetailsComponent implements OnInit {
     }
   }
 
+  deleteCar(carId: string): void {
+    if (!confirm('Are you sure you want to delete this car? This action cannot be undone.')) {
+      return;
+    }
+
+    this.deleting.set(true);
+    this.carService.deleteCar(carId).subscribe({
+      next: () => {
+        this.deleting.set(false);
+        alert('Car deleted successfully!');
+        this.router.navigate(['/cars']);
+      },
+      error: (err) => {
+        console.error('Delete car error:', err);
+        this.deleting.set(false);
+        alert('Failed to delete car. Please try again.');
+      }
+    });
+  }
 
 }
 

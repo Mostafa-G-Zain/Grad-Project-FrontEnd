@@ -22,6 +22,13 @@ export enum CarGearType {
   Automatic = 1
 }
 
+export enum DrivetrainType {
+  FWD = 0,
+  RWD = 1,
+  AWD = 2,
+  FourWD = 3
+}
+
 export interface ICar {
   carId: string;
   year: number;
@@ -35,6 +42,13 @@ export interface ICar {
   mileage: number;
   lastInspectionDate: string; // ISO string
   gearType: CarGearType;
+
+  // Added car parameters
+  exteriorColor: string;
+  internalColor: string;
+  drivetrainType: DrivetrainType;
+  engineCapacity: number; // in cc
+  horsepower: number;
 
   makeId: number;
   makeName: string;
@@ -79,6 +93,13 @@ export interface CarFilter {
   minPrice?: number;
   maxPrice?: number;
   year?: number;
+
+  // Mileage range filters
+  minMileage?: number;
+  maxMileage?: number;
+
+  // Color filter
+  exteriorColor?: string;
 }
 
 

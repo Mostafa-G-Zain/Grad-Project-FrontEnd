@@ -12,7 +12,8 @@ import {
   IFuelType,
   ILocation,
   CarCondition,
-  CarGearType
+  CarGearType,
+  DrivetrainType
 } from '../../../../shared/models/car.model';
 
 @Component({
@@ -38,6 +39,7 @@ export class CarManageComponent implements OnInit {
   // Enums for template
   CarCondition = CarCondition;
   CarGearType = CarGearType;
+  DrivetrainType = DrivetrainType;
 
   carForm!: FormGroup;
   isEditMode = false;
@@ -67,6 +69,13 @@ export class CarManageComponent implements OnInit {
       Mileage: [null, [Validators.required, Validators.min(0)]],
       LastInspectionDate: [null, Validators.required],
       GearType: [null, Validators.required],
+
+      // New fields
+      ExteriorColor: ['', Validators.required],
+      InternalColor: ['', Validators.required],
+      DrivetrainType: [null, Validators.required],
+      EngineCapacity: [null, [Validators.required, Validators.min(0)]],
+      Horsepower: [null, [Validators.required, Validators.min(0)]],
 
       MakeId: [null, Validators.required],
       ModelId: [null, Validators.required],
@@ -100,6 +109,13 @@ export class CarManageComponent implements OnInit {
         Mileage: res.mileage,
         LastInspectionDate: inspectionDate,
         GearType: res.gearType,
+
+        // New fields
+        ExteriorColor: res.exteriorColor,
+        InternalColor: res.internalColor,
+        DrivetrainType: res.drivetrainType,
+        EngineCapacity: res.engineCapacity,
+        Horsepower: res.horsepower,
 
         MakeId: res.makeId,
         ModelId: res.modelId,
@@ -152,7 +168,7 @@ export class CarManageComponent implements OnInit {
 
     this.isLoading = true;
     const value = this.carForm.value;
-    console.log('Form value:', value); 
+    console.log('Form value:', value);
 
     const formData = new FormData();
 
@@ -163,6 +179,13 @@ export class CarManageComponent implements OnInit {
     formData.append('Mileage', String(value.Mileage));
     formData.append('LastInspectionDate', String(value.LastInspectionDate));
     formData.append('GearType', String(value.GearType));
+
+    // New fields
+    formData.append('ExteriorColor', value.ExteriorColor ?? '');
+    formData.append('InternalColor', value.InternalColor ?? '');
+    formData.append('DrivetrainType', String(value.DrivetrainType));
+    formData.append('EngineCapacity', String(value.EngineCapacity));
+    formData.append('Horsepower', String(value.Horsepower));
 
     formData.append('MakeId', String(value.MakeId));
     formData.append('ModelId', String(value.ModelId));

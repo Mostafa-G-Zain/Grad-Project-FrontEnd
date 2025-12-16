@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { CarService } from '../../../../core/services/car.service';
 import {
   ICar,
@@ -11,7 +12,8 @@ import {
   IFuelType,
   ILocation,
   CarCondition,
-  CarGearType
+  CarGearType,
+  DrivetrainType
 } from '../../../../shared/models/car.model';
 
 @Component({
@@ -21,14 +23,16 @@ import {
   templateUrl: './car-list.html',
   styleUrl: './car-list.css'
 })
-export class CarListComponent implements OnInit {
+export class CarListComponent implements OnInit, OnDestroy {
   private carService = inject(CarService);
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
+  private destroy$ = new Subject<void>();
 
   // Expose enums
   CarCondition = CarCondition;
   CarGearType = CarGearType;
+  DrivetrainType = DrivetrainType;
 
   // --- Signals ---
   cars = signal<ICar[]>([]);
@@ -37,7 +41,8 @@ export class CarListComponent implements OnInit {
   bodyTypes = signal<IBodyType[]>([]);
   fuelTypes = signal<IFuelType[]>([]);
   locations = signal<ILocation[]>([]);
-  priceRange = signal<{ min: number; max: number }>({ min: 1000, max: 20000000 });
+  priceRange = signal<{ min: number; max: number }>({ min: 10000, max: 10000000 });
+  mileageRange = signal<{ min: number; max: number }>({ min: 0, max: 1000000 });
   loading = signal<boolean>(false);
 
   // pagination state
@@ -56,13 +61,17 @@ export class CarListComponent implements OnInit {
     locId: [''],
     minPrice: [''],
     maxPrice: [''],
+    minMileage: [''],
+    maxMileage: [''],
     year: [''],
     condition: [null as CarCondition | null],
-    gearType: [null as CarGearType | null]
+    gearType: [null as CarGearType | null],
+    exteriorColor: ['']
   });
 
   ngOnInit() {
     this.loadLookup();
+    this.setupDynamicSearch();
 
     // Read query params for initial filter
     this.route.queryParams.subscribe(params => {
@@ -74,6 +83,22 @@ export class CarListComponent implements OnInit {
           this.filterForm.patchValue({ condition: CarCondition.Used });
         }
       }
+      this.loadPage(1);
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private setupDynamicSearch() {
+    // Dynamic search - triggers as you type with debounce
+    this.filterForm.get('search')?.valueChanges.pipe(
+      debounceTime(400),  // Wait 400ms after user stops typing
+      distinctUntilChanged(),  // Only trigger if value actually changed
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
       this.loadPage(1);
     });
   }
@@ -103,7 +128,11 @@ export class CarListComponent implements OnInit {
     if (filters.year) filters.year = Number(filters.year);
 
     if (filters.condition !== null && filters.condition !== '') filters.condition = Number(filters.condition);
-    if (filters.gearType !== null && filters.gearType !== '') filters.gearType = Number(filters.gearType);
+    // gearType is now a number directly from [ngValue], no conversion needed
+    if (filters.minMileage) filters.minMileage = Number(filters.minMileage);
+    if (filters.maxMileage) filters.maxMileage = Number(filters.maxMileage);
+
+    console.log('Search filters:', filters);
 
     this.carService.getCars(filters, page, this.pageSize()).subscribe({
       next: res => {
@@ -151,9 +180,12 @@ export class CarListComponent implements OnInit {
       locId: '',
       minPrice: '',
       maxPrice: '',
+      minMileage: '',
+      maxMileage: '',
       year: '',
       condition: null,
-      gearType: null
+      gearType: null,
+      exteriorColor: ''
     });
     this.models.set([]);
     this.applyFilters();
@@ -200,6 +232,43 @@ export class CarListComponent implements OnInit {
       this.filterForm.patchValue({ maxPrice: minPrice.toString() });
     } else {
       this.filterForm.patchValue({ maxPrice: value.toString() });
+    }
+  }
+
+  // Mileage range helpers
+  getMinMileage(): number {
+    const value = this.filterForm.get('minMileage')?.value;
+    return value ? Number(value) : this.mileageRange().min;
+  }
+
+  getMaxMileage(): number {
+    const value = this.filterForm.get('maxMileage')?.value;
+    return value ? Number(value) : this.mileageRange().max;
+  }
+
+  onMinMileageChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = Number(target.value);
+    const maxMileage = this.getMaxMileage();
+
+    // Ensure min doesn't exceed max
+    if (value > maxMileage) {
+      this.filterForm.patchValue({ minMileage: maxMileage.toString() });
+    } else {
+      this.filterForm.patchValue({ minMileage: value.toString() });
+    }
+  }
+
+  onMaxMileageChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = Number(target.value);
+    const minMileage = this.getMinMileage();
+
+    // Ensure max doesn't go below min
+    if (value < minMileage) {
+      this.filterForm.patchValue({ maxMileage: minMileage.toString() });
+    } else {
+      this.filterForm.patchValue({ maxMileage: value.toString() });
     }
   }
 

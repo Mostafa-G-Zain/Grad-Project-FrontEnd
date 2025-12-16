@@ -38,6 +38,16 @@ export class CarDetailsComponent implements OnInit {
     return !!user && user.role === 'Vendor';
   }
 
+  get isAdmin(): boolean {
+    const user = this.auth.currentUser();
+    return !!user && user.role === 'Admin';
+  }
+
+  get canDelete(): boolean {
+    // Admins can delete any car, vendors can delete their own cars
+    return this.canEdit || this.isAdmin;
+  }
+
   get isCustomer(): boolean {
     const user = this.auth.currentUser();
     return !!user && user.role === 'Customer';
